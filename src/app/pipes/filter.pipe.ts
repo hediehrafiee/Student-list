@@ -5,16 +5,14 @@ import { AnyCatcher } from 'rxjs/internal/AnyCatcher';
   name: 'filter',
 })
 export class FilterPipe implements PipeTransform {
-  transform(values: any[] = [], searchTerm: string = '', studentList: any) {
-    const filterRows = (row: any): boolean => {
-      const keys = Object.keys(row);
-      return !!keys.find((key) =>
-        row[key].toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    };
-
+  transform(values: any[] = [], searchTerm: string) {
     if (searchTerm) {
-      values = studentList.filter((row: AnyCatcher) => filterRows(row));
+      values = values.filter((row: any): boolean => {
+        const keys = Object.keys(row);
+        return !!keys.find((key) =>
+          row[key].toLowerCase().includes(searchTerm.toLowerCase())
+        );
+      });
     }
 
     return values;

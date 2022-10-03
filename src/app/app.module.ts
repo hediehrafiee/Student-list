@@ -1,4 +1,8 @@
-import { NgModule } from '@angular/core';
+import {
+  CUSTOM_ELEMENTS_SCHEMA,
+  NgModule,
+  NO_ERRORS_SCHEMA,
+} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -16,10 +20,19 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StudentListTableComponent } from './student-list/student-list-table/student-list-table.component';
 import { AddStudentButtonComponent } from './student-list/add-student-button/add-student-button.component';
 import { FilterPipe } from './pipes/filter.pipe';
-import { HighlighterPipe } from './pipes/highlighter.pipe';
+import { HighlightDirective } from './directives/highlight.directive';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
-  declarations: [AppComponent, StudentListComponent, StudentListTableComponent, AddStudentButtonComponent, FilterPipe, HighlighterPipe],
+  declarations: [
+    AppComponent,
+    StudentListComponent,
+    StudentListTableComponent,
+    AddStudentButtonComponent,
+    FilterPipe,
+
+    HighlightDirective,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -31,8 +44,11 @@ import { HighlighterPipe } from './pipes/highlighter.pipe';
     InputGroupModule,
     FormsModule,
     ReactiveFormsModule,
+    CommonModule,
   ],
+  schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [],
+  exports: [HighlightDirective],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

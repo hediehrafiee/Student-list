@@ -28,36 +28,23 @@
   </thead>
   <tbody fd-table-body>
     <tr
-      *ngFor="
-        let row of studentList | filter: filterVal:studentList;
-        let i = index
-      "
+      *ngFor="let row of studentList | filter: filterVal; let i = index"
       fd-table-row
     >
       <td fd-table-cell>
-        <div
-          class="text-contaniner"
-          [innerHtml]="row.name | highlighter: filterVal"
-        ></div>
+        <p [highlight]="filterVal" [textContent]="row.name"></p>
       </td>
       <td fd-table-cell>
-        <div
-          class="text-contaniner"
-          [innerHtml]="row.family | highlighter: filterVal"
-        ></div>
+        <p fd-table-text maxWidth="250px" [noWrap]="true">
+          {{ row.family }}
+        </p>
       </td>
       <td fd-table-cell>
-        <div
-          class="text-contaniner"
-          [innerHtml]="row.age | highlighter: filterVal"
-        ></div>
+        <p fd-table-text maxWidth="250px">
+          {{ row.age }}
+        </p>
       </td>
-      <td fd-table-cell>
-        <div
-          class="text-contaniner"
-          [innerHtml]="row.score | highlighter: filterVal"
-        ></div>
-      </td>
+      <td fd-table-cell>{{ row.score }}</td>
       <td fd-table-cell>
         <button fd-button fdType="negative" (click)="delete(i)">
           <fd-icon [glyph]="'delete'"></fd-icon>

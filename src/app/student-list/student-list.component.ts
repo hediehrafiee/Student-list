@@ -8,6 +8,7 @@ import {
 import { FormBuilder, Validators } from '@angular/forms';
 import { DialogService } from '@fundamental-ngx/core';
 import { StudentList } from '../interfaces/student.interface';
+import { StudentListService } from '../services/student-list.service';
 
 @Component({
   selector: 'app-student-list',
@@ -22,7 +23,9 @@ export class StudentListComponent implements OnInit {
 
   constructor(
     private _dialogService: DialogService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+
+    private readonly studentListService: StudentListService
   ) {}
 
   addStudentForm = this.formBuilder.group({
@@ -33,26 +36,7 @@ export class StudentListComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.studentList = [
-      {
-        name: 'hedieh',
-        family: 'Rafiee',
-        age: '27',
-        score: '18',
-      },
-      {
-        name: 'hossein',
-        family: 'Rafiee',
-        age: '33',
-        score: '20',
-      },
-      {
-        name: 'hamed',
-        family: 'Rafiee',
-        age: '37',
-        score: '20',
-      },
-    ];
+    this.studentList = this.studentListService.studentList;
   }
 
   add(): void {

@@ -1,0 +1,19 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 150px;
+}
+
+.add-student {
+  display: flex;
+  justify-content: end;
+  margin-bottom: 10px;
+}
+
+input {
+  margin-bottom: 10px;
+}
+
+label {
+  color: black;
+}

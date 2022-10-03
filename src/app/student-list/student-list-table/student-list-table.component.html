@@ -1,4 +1,22 @@
-<table fd-table aria-label="Default">
+<fd-toolbar>
+  <label fd-toolbar-label> Filter and sort for table elements </label>
+  <fd-toolbar-spacer></fd-toolbar-spacer>
+  <ng-container fdCompact>
+    <fd-input-group
+      glyph="decline"
+      glyphAriaLabel="Clear"
+      title="Search"
+      placeholder="Search"
+      [button]="true"
+      [disabled]="false"
+      [(ngModel)]="filterVal"
+      (addOnButtonClicked)="filterVal = ''"
+    >
+    </fd-input-group>
+  </ng-container>
+</fd-toolbar>
+
+<table fd-table aria-label="Default" [allCellsFocusable]="true">
   <thead fd-table-header>
     <tr fd-table-row>
       <th fd-table-cell>Name</th>
@@ -9,23 +27,37 @@
     </tr>
   </thead>
   <tbody fd-table-body>
-    <tr *ngFor="let row of studentList; let i = index" fd-table-row>
+    <tr
+      *ngFor="
+        let row of studentList | filter: filterVal:studentList;
+        let i = index
+      "
+      fd-table-row
+    >
       <td fd-table-cell>
-        <p fd-table-text maxWidth="250px" [noWrap]="true">
-          {{ row.name }}
-        </p>
+        <div
+          class="text-contaniner"
+          [innerHtml]="row.name | highlighter: filterVal"
+        ></div>
       </td>
       <td fd-table-cell>
-        <p fd-table-text maxWidth="250px" [noWrap]="true">
-          {{ row.family }}
-        </p>
+        <div
+          class="text-contaniner"
+          [innerHtml]="row.family | highlighter: filterVal"
+        ></div>
       </td>
       <td fd-table-cell>
-        <p fd-table-text maxWidth="250px">
-          {{ row.age }}
-        </p>
+        <div
+          class="text-contaniner"
+          [innerHtml]="row.age | highlighter: filterVal"
+        ></div>
       </td>
-      <td fd-table-cell>{{ row.score }}</td>
+      <td fd-table-cell>
+        <div
+          class="text-contaniner"
+          [innerHtml]="row.score | highlighter: filterVal"
+        ></div>
+      </td>
       <td fd-table-cell>
         <button fd-button fdType="negative" (click)="delete(i)">
           <fd-icon [glyph]="'delete'"></fd-icon>

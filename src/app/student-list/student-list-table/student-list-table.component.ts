@@ -7,6 +7,7 @@ import { StudentList } from '../../interfaces/student.interface';
   styleUrls: ['./student-list-table.component.scss'],
 })
 export class StudentListTableComponent {
+  filterVal = '';
   @Input() studentList: StudentList[] = [];
 
   @Output() public deleteStudent: EventEmitter<number> =

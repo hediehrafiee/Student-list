@@ -15,9 +15,11 @@ import { StudentListComponent } from './student-list/student-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StudentListTableComponent } from './student-list/student-list-table/student-list-table.component';
 import { AddStudentButtonComponent } from './student-list/add-student-button/add-student-button.component';
+import { FilterPipe } from './pipes/filter.pipe';
+import { HighlighterPipe } from './pipes/highlighter.pipe';
 
 @NgModule({
-  declarations: [AppComponent, StudentListComponent, StudentListTableComponent, AddStudentButtonComponent],
+  declarations: [AppComponent, StudentListComponent, StudentListTableComponent, AddStudentButtonComponent, FilterPipe, HighlighterPipe],
   imports: [
     BrowserModule,
     AppRoutingModule,

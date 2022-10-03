@@ -13,9 +13,11 @@ import {
 } from '@fundamental-ngx/core';
 import { StudentListComponent } from './student-list/student-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { StudentListTableComponent } from './student-list/student-list-table/student-list-table.component';
+import { AddStudentButtonComponent } from './student-list/add-student-button/add-student-button.component';
 
 @NgModule({
-  declarations: [AppComponent, StudentListComponent],
+  declarations: [AppComponent, StudentListComponent, StudentListTableComponent, AddStudentButtonComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

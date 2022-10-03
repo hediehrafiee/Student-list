@@ -5,7 +5,7 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { DialogService } from '@fundamental-ngx/core';
 import { StudentList } from '../interfaces/student.interface';
 
@@ -15,7 +15,7 @@ import { StudentList } from '../interfaces/student.interface';
   styleUrls: ['./student-list.component.scss'],
 })
 export class StudentListComponent implements OnInit {
-  studentList: StudentList[] = [];
+  public studentList: StudentList[] = [];
   @ViewChild('addStudentDialog') _addStudentDialog:
     | TemplateRef<any>
     | undefined;
@@ -26,10 +26,10 @@ export class StudentListComponent implements OnInit {
   ) {}
 
   addStudentForm = this.formBuilder.group({
-    name: [''],
-    family: [''],
-    age: [''],
-    score: [''],
+    name: ['', Validators.required],
+    family: ['', Validators.required],
+    age: ['', Validators.required],
+    score: ['', Validators.required],
   });
 
   ngOnInit(): void {
@@ -73,8 +73,7 @@ export class StudentListComponent implements OnInit {
     );
   }
 
-  deleteStudent(index: number): void {
-    console.log('here');
+  delete(index: number): void {
     this.studentList.splice(index, 1);
     console.log(this.studentList);
   }

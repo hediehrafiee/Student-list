@@ -1,48 +1,9 @@
 <div class="container">
-  <div class="add-student">
-    <button
-      fd-button
-      label="Add student"
-      fdType="emphasized"
-      (click)="add()"
-    ></button>
-  </div>
-  <table fd-table aria-label="Default">
-    <thead fd-table-header>
-      <tr fd-table-row>
-        <th fd-table-cell>Name</th>
-        <th fd-table-cell>Last Name</th>
-        <th fd-table-cell>Age</th>
-        <th fd-table-cell>Score</th>
-        <th fd-table-cell>Action</th>
-      </tr>
-    </thead>
-    <tbody fd-table-body>
-      <tr *ngFor="let row of studentList; let i = index" fd-table-row>
-        <td fd-table-cell>
-          <p fd-table-text maxWidth="250px" [noWrap]="true">
-            {{ row.name }}
-          </p>
-        </td>
-        <td fd-table-cell>
-          <p fd-table-text maxWidth="250px" [noWrap]="true">
-            {{ row.family }}
-          </p>
-        </td>
-        <td fd-table-cell>
-          <p fd-table-text maxWidth="250px">
-            {{ row.age }}
-          </p>
-        </td>
-        <td fd-table-cell>{{ row.score }}</td>
-        <td fd-table-cell>
-          <button fd-button fdType="negative" (click)="deleteStudent(i)">
-            <fd-icon [glyph]="'delete'"></fd-icon>
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <app-add-student-button (addStudent)="add()"></app-add-student-button>
+  <app-student-list-table
+    [studentList]="studentList"
+    (deleteStudent)="delete($event)"
+  ></app-student-list-table>
 </div>
 
 <ng-template let-dialog let-dialogConfig="dialogConfig" #addStudentDialog>
@@ -146,6 +107,7 @@
         label="Add"
         fdCompact
         (click)="dialog.close('Add')"
+        [disabled]="addStudentForm.invalid"
       ></fd-button-bar>
     </fd-dialog-footer>
   </fd-dialog>

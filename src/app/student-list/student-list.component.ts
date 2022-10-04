@@ -25,7 +25,7 @@ export class StudentListComponent implements OnInit {
     private _dialogService: DialogService,
     private formBuilder: FormBuilder,
 
-    private readonly studentListService: StudentListService
+    public readonly studentListService: StudentListService
   ) {}
 
   addStudentForm = this.formBuilder.group({
@@ -36,7 +36,9 @@ export class StudentListComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.studentList = this.studentListService.studentList;
+    this.studentListService.studentListChange.subscribe((value) => {
+      this.studentList = this.studentListService.students;
+    });
   }
 
   add(): void {
@@ -50,15 +52,9 @@ export class StudentListComponent implements OnInit {
     );
     dialogRef.afterClosed.subscribe(
       (result) => {
-        console.log(this.addStudentForm.value);
-        this.studentList.push(this.addStudentForm.value);
+        this.studentListService.addStudent(this.addStudentForm.value);
       },
       (error) => {}
     );
-  }
-
-  delete(index: number): void {
-    this.studentList.splice(index, 1);
-    console.log(this.studentList);
   }
 }

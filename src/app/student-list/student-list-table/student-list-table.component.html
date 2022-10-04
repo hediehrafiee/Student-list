@@ -26,11 +26,9 @@
       <th fd-table-cell>Action</th>
     </tr>
   </thead>
+  <!-- | filter: filterVal -->
   <tbody fd-table-body>
-    <tr
-      *ngFor="let row of studentList | filter: filterVal; let i = index"
-      fd-table-row
-    >
+    <tr *ngFor="let row of studentList; let i = index" fd-table-row>
       <td fd-table-cell>
         <p [highlight]="filterVal" [textContent]="row.name"></p>
       </td>

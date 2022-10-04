@@ -3,4 +3,5 @@ export interface StudentList {
   family: string;
   age: string;
   score: string;
+  checked: boolean;
 }

@@ -2,6 +2,10 @@
   <label fd-toolbar-label> Filter and sort for table elements </label>
   <fd-toolbar-spacer></fd-toolbar-spacer>
   <ng-container fdCompact>
+    <button fd-button fdType="negative" (click)="delete()">
+      <fd-icon [glyph]="'delete'"></fd-icon>
+    </button>
+
     <fd-input-group
       glyph="decline"
       glyphAriaLabel="Clear"
@@ -16,14 +20,14 @@
   </ng-container>
 </fd-toolbar>
 
-<table fd-table aria-label="Default" [allCellsFocusable]="true">
+<table fd-table fdCozy aria-label="Default" [allCellsFocusable]="true">
   <thead fd-table-header>
     <tr fd-table-row>
+      <th fd-table-cell></th>
       <th fd-table-cell>Name</th>
       <th fd-table-cell>Last Name</th>
       <th fd-table-cell>Age</th>
       <th fd-table-cell>Score</th>
-      <th fd-table-cell>Action</th>
     </tr>
   </thead>
   <!-- | filter: filterVal -->
@@ -31,7 +35,14 @@
     <tr
       *ngFor="let row of studentList | filter: filterVal; let i = index"
       fd-table-row
+      [attr.aria-selected]="row.checked"
     >
+      <td fd-table-cell>
+        <fd-checkbox
+          [value]="row.checked"
+          (click)="select(i, $event)"
+        ></fd-checkbox>
+      </td>
       <td fd-table-cell>
         <p [highlight]="filterVal" [textContent]="row.name"></p>
       </td>
@@ -43,11 +54,6 @@
       </td>
       <td fd-table-cell>
         <p [highlight]="filterVal" [textContent]="row.score"></p>
-      </td>
-      <td fd-table-cell>
-        <button fd-button fdType="negative" (click)="delete(i)">
-          <fd-icon [glyph]="'delete'"></fd-icon>
-        </button>
       </td>
     </tr>
   </tbody>

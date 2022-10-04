@@ -34,6 +34,7 @@ export class StudentListComponent implements OnInit {
     family: ['', Validators.required],
     age: ['', Validators.required],
     score: ['', Validators.required],
+    checked: [false],
   });
 
   ngOnInit(): void {

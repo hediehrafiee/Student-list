@@ -1,10 +1,11 @@
 <div class="container">
   <app-add-student-button (addStudent)="add()"></app-add-student-button>
-
-  <app-student-list-table
-    [studentList]="studentList"
-    (deleteStudent)="studentListService.delete($event)"
-  ></app-student-list-table>
+  <ng-container *ngIf="studentList | async as studentList">
+    <app-student-list-table
+      [studentList]="studentList"
+      (deleteStudent)="studentListService.delete($event)"
+    ></app-student-list-table>
+  </ng-container>
 </div>
 
 <ng-template let-dialog let-dialogConfig="dialogConfig" #addStudentDialog>

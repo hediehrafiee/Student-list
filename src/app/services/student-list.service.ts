@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { StudentList } from '../interfaces/student.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StudentListService {
-  public studentListChange: BehaviorSubject<StudentList[]> =
-    new BehaviorSubject<StudentList[]>([]);
+  public studentListChange = new BehaviorSubject<StudentList[]>([]);
 
-  public get students(): StudentList[] {
-    return this.studentListChange.getValue();
+  public get students(): Observable<StudentList[]> {
+    return this.studentListChange.asObservable();
   }
 
   private studentList: StudentList[] = [

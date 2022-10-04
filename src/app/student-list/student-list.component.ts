@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { DialogService } from '@fundamental-ngx/core';
+import { Observable } from 'rxjs';
 import { StudentList } from '../interfaces/student.interface';
 import { StudentListService } from '../services/student-list.service';
 
@@ -16,7 +17,7 @@ import { StudentListService } from '../services/student-list.service';
   styleUrls: ['./student-list.component.scss'],
 })
 export class StudentListComponent implements OnInit {
-  public studentList: StudentList[] = [];
+  public studentList: Observable<StudentList[]>;
   @ViewChild('addStudentDialog') _addStudentDialog:
     | TemplateRef<any>
     | undefined;
@@ -36,9 +37,7 @@ export class StudentListComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.studentListService.studentListChange.subscribe((value) => {
-      this.studentList = this.studentListService.students;
-    });
+    this.studentList = this.studentListService.students;
   }
 
   add(): void {

@@ -35,16 +35,14 @@
         <p [highlight]="filterVal" [textContent]="row.name"></p>
       </td>
       <td fd-table-cell>
-        <p fd-table-text maxWidth="250px" [noWrap]="true">
-          {{ row.family }}
-        </p>
+        <p [highlight]="filterVal" [textContent]="row.family"></p>
       </td>
       <td fd-table-cell>
-        <p fd-table-text maxWidth="250px">
-          {{ row.age }}
-        </p>
+        <p [highlight]="filterVal" [textContent]="row.age"></p>
       </td>
-      <td fd-table-cell>{{ row.score }}</td>
+      <td fd-table-cell>
+        <p [highlight]="filterVal" [textContent]="row.score"></p>
+      </td>
       <td fd-table-cell>
         <button fd-button fdType="negative" (click)="delete(i)">
           <fd-icon [glyph]="'delete'"></fd-icon>

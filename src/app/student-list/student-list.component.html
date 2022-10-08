@@ -22,10 +22,10 @@
     </ng-container>
   </fd-toolbar>
 
-  <ng-container *ngIf="studentList | async as studentList">
+  <ng-container *ngIf="studentList$ | async as studentList">
     <app-student-list-table
       [filterVal]="searchVal"
-      [studentList]="studentList"
+      [studentList$]="studentList"
       (selectedIndex)="selectedIndex = $event"
     ></app-student-list-table>
   </ng-container>

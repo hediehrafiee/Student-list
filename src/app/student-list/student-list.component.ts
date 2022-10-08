@@ -20,7 +20,7 @@ export class StudentListComponent implements OnInit {
   public searchVal = '';
 
   public selectedIndex: Array<number>;
-  public studentList: Observable<StudentList[]>;
+  public studentList$: Observable<StudentList[]>;
   @ViewChild('addStudentDialog') _addStudentDialog:
     | TemplateRef<any>
     | undefined;
@@ -43,7 +43,7 @@ export class StudentListComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.studentList = this.studentListService.students;
+    this.studentList$ = this.studentListService.students;
   }
 
   add(): void {

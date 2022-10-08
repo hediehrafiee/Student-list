@@ -11,7 +11,10 @@
 
   <tbody fd-table-body>
     <tr
-      *ngFor="let row of displayedRows | filter: filterVal; let i = index"
+      *ngFor="
+        let row of studentListService.displayedRows | filter: filterVal;
+        let i = index
+      "
       fd-table-row
       [attr.aria-selected]="row.checked"
     >
@@ -42,11 +45,11 @@
           <fd-pagination
             fd-toolbar-item
             [totalItems]="studentList.length"
-            [itemsPerPage]="itemsPerPage"
-            [itemsPerPageOptions]="itemsPerPageOptions"
-            [currentPage]="currentPage"
-            (pageChangeStart)="newPageClicked($event)"
-            (itemsPerPageChange)="itemsPerPageChange($event)"
+            [itemsPerPage]="studentListService.itemsPerPage"
+            [itemsPerPageOptions]="studentListService.itemsPerPageOptions"
+            [currentPage]="studentListService.currentPage"
+            (pageChangeStart)="studentListService.newPageClicked($event)"
+            (itemsPerPageChange)="studentListService.itemsPerPageChange($event)"
             ariaLabel="Table pagination"
           ></fd-pagination>
         </div>

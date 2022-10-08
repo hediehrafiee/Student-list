@@ -25,6 +25,8 @@ export class StudentListComponent implements OnInit {
     | TemplateRef<any>
     | undefined;
 
+  @ViewChild('deleteStudentDialog') _deleteStudentDialog: TemplateRef<any>;
+
   constructor(
     private _dialogService: DialogService,
     private formBuilder: FormBuilder,
@@ -56,6 +58,25 @@ export class StudentListComponent implements OnInit {
     dialogRef.afterClosed.subscribe(
       (result) => {
         this.studentListService.addStudent(this.addStudentForm.value);
+      },
+      (error) => {}
+    );
+  }
+
+  delete(): void {
+    if (!this.selectedIndex) return;
+
+    const dialogRef = this._dialogService.open(
+      this._deleteStudentDialog as TemplateRef<any>,
+      {
+        responsivePadding: true,
+        focusTrapped: true,
+        verticalPadding: true,
+      }
+    );
+    dialogRef.afterClosed.subscribe(
+      (result) => {
+        this.studentListService.delete(this.selectedIndex);
       },
       (error) => {}
     );

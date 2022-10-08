@@ -4,11 +4,7 @@
     <label fd-toolbar-label> Filter and sort for table elements </label>
     <fd-toolbar-spacer></fd-toolbar-spacer>
     <ng-container fdCompact>
-      <button
-        fd-button
-        fdType="negative"
-        (click)="studentListService.delete(selectedIndex)"
-      >
+      <button fd-button fdType="negative" (click)="delete()">
         <fd-icon [glyph]="'delete'"></fd-icon>
       </button>
 
@@ -137,6 +133,36 @@
         fdCompact
         (click)="dialog.close('Add')"
         [disabled]="addStudentForm.invalid"
+      ></fd-button-bar>
+    </fd-dialog-footer>
+  </fd-dialog>
+</ng-template>
+
+<ng-template let-dialog let-dialogConfig="dialogConfig" #deleteStudentDialog>
+  <fd-dialog [dialogConfig]="dialogConfig" [dialogRef]="dialog">
+    <fd-dialog-header>
+      <h1 id="fd-dialog-header-10" fd-title>Delete student</h1>
+    </fd-dialog-header>
+
+    <fd-dialog-body>
+      <p id="fd-dialog-body-10" role="dialog">
+        Are you sure about removing the student?
+      </p>
+    </fd-dialog-body>
+
+    <fd-dialog-footer fdCompact>
+      <fd-button-bar
+        fdInitialFocus
+        label="Cancel"
+        (click)="dialog.dismiss('Cancel')"
+        ariaLabel="Cancel"
+      ></fd-button-bar>
+
+      <fd-button-bar
+        fdType="emphasized"
+        label="Delete"
+        (click)="dialog.close('Delete')"
+        ariaLabel="Delete"
       ></fd-button-bar>
     </fd-dialog-footer>
   </fd-dialog>

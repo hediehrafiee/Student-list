@@ -9,24 +9,27 @@ import { StudentList } from '../../interfaces/student.interface';
 })
 export class StudentListTableComponent {
   private readonly _rangeSelector = new RangeSelector();
-  private selectIndex: number;
-
-  filterVal = '';
   @Input() studentList: StudentList[] = [];
-  @Output() public deleteStudent: EventEmitter<number> =
-    new EventEmitter<number>();
+  @Input() filterVal: string = '';
+  @Output() public selectedIndex: EventEmitter<Array<number>> =
+    new EventEmitter<Array<number>>();
 
-  delete(): void {
-    this.deleteStudent.emit(this.selectIndex);
-  }
-
-  select(index: number, event: MouseEvent): void {
-    this.selectIndex = index;
+  select(index: number, event: MouseEvent, checked: boolean): void {
     // using rangeSelector utility to be able to select multiple rows while "shift" is pressed
     const checkedToggled = !this.studentList[index].checked;
     this._rangeSelector.onRangeElementToggled(index, event);
-    this._rangeSelector.applyValueToEachInRange(
-      (idx) => (this.studentList[idx].checked = checkedToggled)
+    this._rangeSelector.applyValueToEachInRange((idx) => {
+      this.studentList[idx].checked = checkedToggled;
+    });
+
+    const selectIndex = this.studentList.reduce(
+      (results: number[], item: StudentList, index: number) => {
+        if (item.checked) results.push(index);
+        return results;
+      },
+      []
     );
+
+    this.selectedIndex.emit(selectIndex);
   }
 }

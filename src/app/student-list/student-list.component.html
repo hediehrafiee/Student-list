@@ -1,9 +1,36 @@
 <div class="container">
   <app-add-student-button (addStudent)="add()"></app-add-student-button>
+  <fd-toolbar>
+    <label fd-toolbar-label> Filter and sort for table elements </label>
+    <fd-toolbar-spacer></fd-toolbar-spacer>
+    <ng-container fdCompact>
+      <button
+        fd-button
+        fdType="negative"
+        (click)="studentListService.delete(selectedIndex)"
+      >
+        <fd-icon [glyph]="'delete'"></fd-icon>
+      </button>
+
+      <fd-input-group
+        glyph="decline"
+        glyphAriaLabel="Clear"
+        title="Search"
+        placeholder="Search"
+        [button]="true"
+        [disabled]="false"
+        [(ngModel)]="searchVal"
+        (addOnButtonClicked)="searchVal = ''"
+      >
+      </fd-input-group>
+    </ng-container>
+  </fd-toolbar>
+
   <ng-container *ngIf="studentList | async as studentList">
     <app-student-list-table
+      [filterVal]="searchVal"
       [studentList]="studentList"
-      (deleteStudent)="studentListService.delete($event)"
+      (selectedIndex)="selectedIndex = $event"
     ></app-student-list-table>
   </ng-container>
 </div>

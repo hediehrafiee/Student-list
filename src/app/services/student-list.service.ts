@@ -45,10 +45,17 @@ export class StudentListService {
     this.studentListChange.next(this.studentList);
   }
 
-  public delete(index: any): void {
-    if (!index.length) {
+  public delete(indexes: number[]): void {
+    if (!indexes) return;
+
+    const sortIndexes = indexes.sort(function (a, b) {
+      return b - a;
+    });
+
+    for (let index of sortIndexes) {
       this.studentList.splice(index, 1);
     }
+
     this.studentListChange.next(this.studentList);
   }
 }

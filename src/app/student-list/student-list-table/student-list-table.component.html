@@ -1,25 +1,3 @@
-<fd-toolbar>
-  <label fd-toolbar-label> Filter and sort for table elements </label>
-  <fd-toolbar-spacer></fd-toolbar-spacer>
-  <ng-container fdCompact>
-    <button fd-button fdType="negative" (click)="delete()">
-      <fd-icon [glyph]="'delete'"></fd-icon>
-    </button>
-
-    <fd-input-group
-      glyph="decline"
-      glyphAriaLabel="Clear"
-      title="Search"
-      placeholder="Search"
-      [button]="true"
-      [disabled]="false"
-      [(ngModel)]="filterVal"
-      (addOnButtonClicked)="filterVal = ''"
-    >
-    </fd-input-group>
-  </ng-container>
-</fd-toolbar>
-
 <table fd-table fdCozy aria-label="Default" [allCellsFocusable]="true">
   <thead fd-table-header>
     <tr fd-table-row>
@@ -30,7 +8,7 @@
       <th fd-table-cell>Score</th>
     </tr>
   </thead>
-  <!-- | filter: filterVal -->
+
   <tbody fd-table-body>
     <tr
       *ngFor="let row of studentList | filter: filterVal; let i = index"
@@ -40,7 +18,7 @@
       <td fd-table-cell>
         <fd-checkbox
           [value]="row.checked"
-          (click)="select(i, $event)"
+          (click)="select(i, $event, row.checked)"
         ></fd-checkbox>
       </td>
       <td fd-table-cell>

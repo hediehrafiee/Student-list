@@ -17,6 +17,9 @@ import { StudentListService } from '../services/student-list.service';
   styleUrls: ['./student-list.component.scss'],
 })
 export class StudentListComponent implements OnInit {
+  public searchVal = '';
+
+  public selectedIndex: Array<number>;
   public studentList: Observable<StudentList[]>;
   @ViewChild('addStudentDialog') _addStudentDialog:
     | TemplateRef<any>

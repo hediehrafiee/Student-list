@@ -9,8 +9,9 @@ export class FilterPipe implements PipeTransform {
     if (searchTerm) {
       values = values.filter((row: any): boolean => {
         const keys = Object.keys(row);
+        debugger;
         return !!keys.find((key) =>
-          row[key].toLowerCase().includes(searchTerm.toLowerCase())
+          row[key].toString().toLowerCase().includes(searchTerm.toLowerCase())
         );
       });
     }

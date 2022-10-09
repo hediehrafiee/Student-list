@@ -47,12 +47,14 @@ export class StudentListComponent implements OnInit {
     if (this.pageData as PageData) {
       this.pageData.itemsPerPageOptions =
         this.studentListService.itemsPerPageOptions;
-      this.studentListService.currentPage.subscribe(
-        (res) => (this.pageData.currentPage = res)
-      );
+      this.studentListService.currentPage.subscribe((res) => {
+        this.pageData.currentPage = res;
+      });
 
       this.pageData.itemsPerPage = this.studentListService.itemsPerPage;
-      this.pageData.totalItems = this.studentListService.totalItems;
+      this.studentListService.totalItems.subscribe(
+        (res) => (this.pageData.totalItems = res)
+      );
     }
   }
 

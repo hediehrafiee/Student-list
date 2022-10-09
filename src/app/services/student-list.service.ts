@@ -76,14 +76,16 @@ export class StudentListService {
     return this.currentPage$;
   }
 
-  public get totalItems(): number {
-    return this.totalItems$.value;
+  public get totalItems(): Observable<number> {
+    return this.totalItems$;
   }
 
   public addStudent(student: StudentList): void {
     this.studentList.push(student);
     this.studentList$.next([...this.studentList]);
     this.totalItems$.next(this.studentList.length);
+
+    this.newPageClicked(this.currentPage$.value);
   }
 
   public delete(indexes: number[]): void {
@@ -99,11 +101,13 @@ export class StudentListService {
 
     this.studentList$.next([...this.studentList]);
     this.totalItems$.next(this.studentList.length);
+    this.newPageClicked(this.currentPage$.value);
   }
 
   public newPageClicked(pageNumber: number): void {
     this.currentPage$.next(pageNumber);
     const firstDisplayedRow = (pageNumber - 1) * this.itemsPerPage;
+    console.log(this.studentList);
     of(this.studentList)
       .pipe(
         take(1),
@@ -116,7 +120,6 @@ export class StudentListService {
         })
       )
       .subscribe((events) => {
-        console.log(events);
         this.studentList$.next(events);
       });
   }

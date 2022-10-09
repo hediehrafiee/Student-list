@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { DialogService } from '@fundamental-ngx/core';
 
-import { defer, map, Observable, take } from 'rxjs';
+import { defer, interval, map, merge, Observable, range, take } from 'rxjs';
 import { PageData } from '../interfaces/page.interface';
 import { StudentList } from '../interfaces/student.interface';
 import { StudentListService } from '../services/student-list.service';
@@ -41,13 +41,18 @@ export class StudentListComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.studentListService.newPageClicked(1);
     this.students$ = this.studentListService.students$;
 
     if (this.pageData as PageData) {
       this.pageData.itemsPerPageOptions =
         this.studentListService.itemsPerPageOptions;
-      this.pageData.currentPage = this.studentListService.currentPage;
+      this.studentListService.currentPage.subscribe(
+        (res) => (this.pageData.currentPage = res)
+      );
+
       this.pageData.itemsPerPage = this.studentListService.itemsPerPage;
+      this.pageData.totalItems = this.studentListService.totalItems;
     }
   }
 

@@ -1,16 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  BehaviorSubject,
-  concatMap,
-  EMPTY,
-  expand,
-  mapTo,
-  Observable,
-  reduce,
-  tap,
-  timer,
-  toArray,
-} from 'rxjs';
+import { BehaviorSubject, map, Observable, of, take } from 'rxjs';
 
 import { StudentList } from '../interfaces/student.interface';
 
@@ -20,10 +9,8 @@ import { StudentList } from '../interfaces/student.interface';
 export class StudentListService {
   private itemsPerPage$ = new BehaviorSubject<number>(3);
   private currentPage$ = new BehaviorSubject<number>(1);
+
   private studentList$ = new BehaviorSubject<StudentList[]>([]);
-
-  displayedRows: any[];
-
   public itemsPerPageOptions: number[] = [3, 6, 9];
 
   private studentList: StudentList[] = [
@@ -48,9 +35,30 @@ export class StudentListService {
       score: '20',
       checked: false,
     },
+    {
+      name: 'hoda',
+      family: 'Rafiee',
+      age: '37',
+      score: '20',
+      checked: false,
+    },
+    {
+      name: 'hasty',
+      family: 'Rafiee',
+      age: '37',
+      score: '20',
+      checked: false,
+    },
+    {
+      name: 'helia',
+      family: 'Rafiee',
+      age: '37',
+      score: '20',
+      checked: false,
+    },
   ];
 
-  public totalItems = this.studentList.length;
+  private totalItems$ = new BehaviorSubject<number>(this.studentList.length);
 
   constructor() {
     this.studentList$.next(this.studentList);
@@ -64,14 +72,18 @@ export class StudentListService {
     return this.itemsPerPage$.value;
   }
 
-  public get currentPage(): number {
-    return this.currentPage$.value;
+  public get currentPage(): Observable<number> {
+    return this.currentPage$;
+  }
+
+  public get totalItems(): number {
+    return this.totalItems$.value;
   }
 
   public addStudent(student: StudentList): void {
     this.studentList.push(student);
-    console.log('next');
     this.studentList$.next([...this.studentList]);
+    this.totalItems$.next(this.studentList.length);
   }
 
   public delete(indexes: number[]): void {
@@ -86,19 +98,31 @@ export class StudentListService {
     }
 
     this.studentList$.next([...this.studentList]);
+    this.totalItems$.next(this.studentList.length);
   }
 
   public newPageClicked(pageNumber: number): void {
     this.currentPage$.next(pageNumber);
-
-    // const firstDisplayedRow = (pageNumber - 1) * this.itemsPerPage;
-    // this.displayedRows = this.studentList.slice(
-    //   firstDisplayedRow,
-    //   firstDisplayedRow + this.itemsPerPage
-    // );
+    const firstDisplayedRow = (pageNumber - 1) * this.itemsPerPage;
+    of(this.studentList)
+      .pipe(
+        take(1),
+        map((pArray) => {
+          return pArray.filter(
+            (p, i) =>
+              i >= firstDisplayedRow &&
+              i < firstDisplayedRow + this.itemsPerPage
+          );
+        })
+      )
+      .subscribe((events) => {
+        console.log(events);
+        this.studentList$.next(events);
+      });
   }
 
   public itemsPerPageChange(value: number): void {
     this.itemsPerPage$.next(value);
+    this.newPageClicked(1);
   }
 }

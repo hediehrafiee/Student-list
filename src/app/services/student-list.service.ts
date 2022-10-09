@@ -1,22 +1,30 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import {
+  BehaviorSubject,
+  concatMap,
+  EMPTY,
+  expand,
+  mapTo,
+  Observable,
+  reduce,
+  tap,
+  timer,
+  toArray,
+} from 'rxjs';
+
 import { StudentList } from '../interfaces/student.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StudentListService {
-  public studentListChange = new BehaviorSubject<StudentList[]>([]);
+  private itemsPerPage$ = new BehaviorSubject<number>(3);
+  private currentPage$ = new BehaviorSubject<number>(1);
+  private studentList$ = new BehaviorSubject<StudentList[]>([]);
 
   displayedRows: any[];
-  public totalItems = 3;
-  public itemsPerPage = 3;
-  public currentPage = 1;
-  public itemsPerPageOptions: number[] = [3, 6, 9];
 
-  public get students(): Observable<StudentList[]> {
-    return this.studentListChange.asObservable();
-  }
+  public itemsPerPageOptions: number[] = [3, 6, 9];
 
   private studentList: StudentList[] = [
     {
@@ -42,14 +50,28 @@ export class StudentListService {
     },
   ];
 
+  public totalItems = this.studentList.length;
+
   constructor() {
-    this.studentListChange.next(this.studentList);
+    this.studentList$.next(this.studentList);
+  }
+
+  public get students$(): Observable<StudentList[]> {
+    return this.studentList$.asObservable();
+  }
+
+  public get itemsPerPage(): number {
+    return this.itemsPerPage$.value;
+  }
+
+  public get currentPage(): number {
+    return this.currentPage$.value;
   }
 
   public addStudent(student: StudentList): void {
     this.studentList.push(student);
     console.log('next');
-    this.studentListChange.next([...this.studentList]);
+    this.studentList$.next([...this.studentList]);
   }
 
   public delete(indexes: number[]): void {
@@ -63,20 +85,20 @@ export class StudentListService {
       this.studentList.splice(index, 1);
     }
 
-    this.studentListChange.next([...this.studentList]);
+    this.studentList$.next([...this.studentList]);
   }
 
   public newPageClicked(pageNumber: number): void {
-    this.currentPage = pageNumber;
-    const firstDisplayedRow = (pageNumber - 1) * this.itemsPerPage;
-    this.displayedRows = this.studentList.slice(
-      firstDisplayedRow,
-      firstDisplayedRow + this.itemsPerPage
-    );
+    this.currentPage$.next(pageNumber);
+
+    // const firstDisplayedRow = (pageNumber - 1) * this.itemsPerPage;
+    // this.displayedRows = this.studentList.slice(
+    //   firstDisplayedRow,
+    //   firstDisplayedRow + this.itemsPerPage
+    // );
   }
 
   public itemsPerPageChange(value: number): void {
-    this.itemsPerPage = value;
-    this.newPageClicked(this.currentPage);
+    this.itemsPerPage$.next(value);
   }
 }

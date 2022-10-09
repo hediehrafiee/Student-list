@@ -1,13 +1,9 @@
-import {
-  Component,
-  ElementRef,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { DialogService } from '@fundamental-ngx/core';
-import { Observable } from 'rxjs';
+
+import { defer, map, Observable, take } from 'rxjs';
+import { PageData } from '../interfaces/page.interface';
 import { StudentList } from '../interfaces/student.interface';
 import { StudentListService } from '../services/student-list.service';
 
@@ -20,7 +16,9 @@ export class StudentListComponent implements OnInit {
   public searchVal = '';
 
   public selectedIndex: Array<number>;
-  public studentList$: Observable<StudentList[]>;
+  public students$: Observable<StudentList[]>;
+
+  public pageData: PageData = {} as PageData;
   @ViewChild('addStudentDialog') _addStudentDialog:
     | TemplateRef<any>
     | undefined;
@@ -43,7 +41,14 @@ export class StudentListComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.studentList$ = this.studentListService.students;
+    this.students$ = this.studentListService.students$;
+
+    if (this.pageData as PageData) {
+      this.pageData.itemsPerPageOptions =
+        this.studentListService.itemsPerPageOptions;
+      this.pageData.currentPage = this.studentListService.currentPage;
+      this.pageData.itemsPerPage = this.studentListService.itemsPerPage;
+    }
   }
 
   add(): void {
@@ -81,4 +86,29 @@ export class StudentListComponent implements OnInit {
       (error) => {}
     );
   }
+
+  public newPageClicked(page: number) {
+    this.studentListService.newPageClicked(page);
+  }
+
+  public itemsPerPageChange(value: number) {
+    this.studentListService.itemsPerPageChange(value);
+  }
+}
+function fetchPage(page: any): any {
+  throw new Error('Function not implemented.');
+}
+
+function mergeMap(
+  arg0: ({ items, nextPage }: { items: any; nextPage: any }) => any
+): import('rxjs').OperatorFunction<unknown, unknown> {
+  throw new Error('Function not implemented.');
+}
+
+function from(items: any) {
+  throw new Error('Function not implemented.');
+}
+
+function concat(items$: any, next$: any) {
+  throw new Error('Function not implemented.');
 }

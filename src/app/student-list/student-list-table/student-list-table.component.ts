@@ -14,7 +14,11 @@ export class StudentListTableComponent {
 
   @Input() studentList: StudentList[] = [];
   @Input() filterVal: string = '';
-  @Input() pageData: PageData;
+
+  @Input() itemsPerPageOptions: Array<number>;
+  @Input() currentPage: number;
+  @Input() totalItems: number;
+  @Input() itemsPerPage: number;
 
   @Output() public selectedIndex: EventEmitter<Array<number>> =
     new EventEmitter<Array<number>>();

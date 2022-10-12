@@ -41,10 +41,10 @@
         <div>
           <fd-pagination
             fd-toolbar-item
-            [totalItems]="pageData.totalItems"
-            [itemsPerPage]="pageData.itemsPerPage"
-            [itemsPerPageOptions]="pageData.itemsPerPageOptions"
-            [currentPage]="pageData.currentPage"
+            [totalItems]="totalItems"
+            [itemsPerPage]="itemsPerPage"
+            [itemsPerPageOptions]="itemsPerPageOptions"
+            [currentPage]="currentPage"
             (pageChangeStart)="pageClicked($event)"
             (itemsPerPageChange)="itemsPerPageClicked($event)"
             ariaLabel="Table pagination"

@@ -2,7 +2,19 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { DialogService } from '@fundamental-ngx/core';
 
-import { defer, interval, map, merge, Observable, range, take } from 'rxjs';
+import {
+  defer,
+  EMPTY,
+  expand,
+  interval,
+  map,
+  merge,
+  Observable,
+  of,
+  range,
+  reduce,
+  take,
+} from 'rxjs';
 import { PageData } from '../interfaces/page.interface';
 import { StudentList } from '../interfaces/student.interface';
 import { StudentListService } from '../services/student-list.service';
@@ -17,8 +29,12 @@ export class StudentListComponent implements OnInit {
 
   public selectedIndex: Array<number>;
   public students$: Observable<StudentList[]>;
+  public currentPage$: Observable<number>;
+  public itemsPerPage$: Observable<number>;
+  public totalItems$: Observable<number>;
+  public itemsPerPageOptions: Array<number> =
+    this.studentListService.itemsPerPageOptions;
 
-  public pageData: PageData = {} as PageData;
   @ViewChild('addStudentDialog') _addStudentDialog:
     | TemplateRef<any>
     | undefined;
@@ -41,21 +57,10 @@ export class StudentListComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.studentListService.newPageClicked(1);
     this.students$ = this.studentListService.students$;
-
-    if (this.pageData as PageData) {
-      this.pageData.itemsPerPageOptions =
-        this.studentListService.itemsPerPageOptions;
-      this.studentListService.currentPage.subscribe((res) => {
-        this.pageData.currentPage = res;
-      });
-
-      this.pageData.itemsPerPage = this.studentListService.itemsPerPage;
-      this.studentListService.totalItems.subscribe(
-        (res) => (this.pageData.totalItems = res)
-      );
-    }
+    this.totalItems$ = this.studentListService.totalItems$;
+    this.itemsPerPage$ = this.studentListService.itemsPerPage$;
+    this.currentPage$ = this.studentListService.currentPage$;
   }
 
   add(): void {

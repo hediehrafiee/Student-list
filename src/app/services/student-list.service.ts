@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, Observable, of, take } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
 
 import { StudentList } from '../interfaces/student.interface';
 
@@ -7,125 +7,106 @@ import { StudentList } from '../interfaces/student.interface';
   providedIn: 'root',
 })
 export class StudentListService {
-  private itemsPerPage$ = new BehaviorSubject<number>(3);
-  private currentPage$ = new BehaviorSubject<number>(1);
+  private _itemsPerPage$ = new BehaviorSubject<number>(3);
+  private _currentPage$ = new BehaviorSubject<number>(1);
 
-  private studentList$ = new BehaviorSubject<StudentList[]>([]);
+  private _studentList$ = new BehaviorSubject<StudentList[]>([]);
   public itemsPerPageOptions: number[] = [3, 6, 9];
 
-  private studentList: StudentList[] = [
-    {
-      name: 'hedieh',
-      family: 'Rafiee',
-      age: '27',
-      score: '18',
-      checked: false,
-    },
-    {
-      name: 'hossein',
-      family: 'Rafiee',
-      age: '33',
-      score: '20',
-      checked: false,
-    },
-    {
-      name: 'hamed',
-      family: 'Rafiee',
-      age: '37',
-      score: '20',
-      checked: false,
-    },
-    {
-      name: 'hoda',
-      family: 'Rafiee',
-      age: '37',
-      score: '20',
-      checked: false,
-    },
-    {
-      name: 'hasty',
-      family: 'Rafiee',
-      age: '37',
-      score: '20',
-      checked: false,
-    },
-    {
-      name: 'helia',
-      family: 'Rafiee',
-      age: '37',
-      score: '20',
-      checked: false,
-    },
-  ];
-
-  private totalItems$ = new BehaviorSubject<number>(this.studentList.length);
-
   constructor() {
-    this.studentList$.next(this.studentList);
+    this._studentList$.next([
+      {
+        name: 'hedieh',
+        family: 'Rafiee',
+        age: '27',
+        score: '18',
+        checked: false,
+      },
+      {
+        name: 'hossein',
+        family: 'Rafiee',
+        age: '33',
+        score: '20',
+        checked: false,
+      },
+      {
+        name: 'hamed',
+        family: 'Rafiee',
+        age: '37',
+        score: '20',
+        checked: false,
+      },
+      {
+        name: 'hoda',
+        family: 'Rafiee',
+        age: '37',
+        score: '20',
+        checked: false,
+      },
+      {
+        name: 'hasty',
+        family: 'Rafiee',
+        age: '37',
+        score: '20',
+        checked: false,
+      },
+      {
+        name: 'helia',
+        family: 'Rafiee',
+        age: '37',
+        score: '20',
+        checked: false,
+      },
+    ]);
+  }
+
+  public get itemsPerPage$(): Observable<number> {
+    return this._itemsPerPage$;
+  }
+
+  public get currentPage$(): Observable<number> {
+    return this._currentPage$;
+  }
+
+  public get totalItems$(): Observable<number> {
+    return this._studentList$.asObservable().pipe(map((c) => c.length));
   }
 
   public get students$(): Observable<StudentList[]> {
-    return this.studentList$.asObservable();
-  }
-
-  public get itemsPerPage(): number {
-    return this.itemsPerPage$.value;
-  }
-
-  public get currentPage(): Observable<number> {
-    return this.currentPage$;
-  }
-
-  public get totalItems(): Observable<number> {
-    return this.totalItems$;
+    return combineLatest([
+      this._studentList$,
+      this._itemsPerPage$,
+      this._currentPage$,
+    ]).pipe(
+      map(([list, perPage, currPage]) => {
+        return list.slice((currPage - 1) * perPage, currPage * perPage);
+      })
+    );
   }
 
   public addStudent(student: StudentList): void {
-    this.studentList.push(student);
-    this.studentList$.next([...this.studentList]);
-    this.totalItems$.next(this.studentList.length);
-
-    this.newPageClicked(this.currentPage$.value);
+    this._studentList$.next(this._studentList$.value.concat(student));
   }
 
   public delete(indexes: number[]): void {
     if (!indexes) return;
 
+    let studentList: StudentList[] = this._studentList$.value;
     const sortIndexes = indexes.sort(function (a, b) {
       return b - a;
     });
-
     for (let index of sortIndexes) {
-      this.studentList.splice(index, 1);
+      studentList.splice(index, 1);
     }
 
-    this.studentList$.next([...this.studentList]);
-    this.totalItems$.next(this.studentList.length);
-    this.newPageClicked(this.currentPage$.value);
+    this._studentList$.next([...studentList]);
   }
 
   public newPageClicked(pageNumber: number): void {
-    this.currentPage$.next(pageNumber);
-    const firstDisplayedRow = (pageNumber - 1) * this.itemsPerPage;
-    console.log(this.studentList);
-    of(this.studentList)
-      .pipe(
-        take(1),
-        map((pArray) => {
-          return pArray.filter(
-            (p, i) =>
-              i >= firstDisplayedRow &&
-              i < firstDisplayedRow + this.itemsPerPage
-          );
-        })
-      )
-      .subscribe((events) => {
-        this.studentList$.next(events);
-      });
+    this._currentPage$.next(pageNumber);
   }
 
   public itemsPerPageChange(value: number): void {
-    this.itemsPerPage$.next(value);
-    this.newPageClicked(1);
+    this._itemsPerPage$.next(value);
   }
 }

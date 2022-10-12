@@ -26,7 +26,10 @@
     <app-student-list-table
       [filterVal]="searchVal"
       [studentList]="students"
-      [pageData]="pageData"
+      [itemsPerPageOptions]="itemsPerPageOptions"
+      [currentPage]="(currentPage$ | async)!!"
+      [itemsPerPage]="(itemsPerPage$ | async)!!"
+      [totalItems]="(totalItems$ | async)!!"
       (selectedIndex)="selectedIndex = $event"
       (newPageClicked)="newPageClicked($event)"
       (itemsPerPageChange)="itemsPerPageChange($event)"

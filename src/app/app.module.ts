@@ -19,7 +19,6 @@ import { StudentListComponent } from './student-list/student-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StudentListTableComponent } from './student-list/student-list-table/student-list-table.component';
 import { AddStudentButtonComponent } from './student-list/add-student-button/add-student-button.component';
-import { FilterPipe } from './pipes/filter.pipe';
 import { HighlightDirective } from './directives/highlight.directive';
 import { CommonModule } from '@angular/common';
 
@@ -29,7 +28,6 @@ import { CommonModule } from '@angular/common';
     StudentListComponent,
     StudentListTableComponent,
     AddStudentButtonComponent,
-    FilterPipe,
 
     HighlightDirective,
   ],

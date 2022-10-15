@@ -106,21 +106,8 @@ export class StudentListComponent implements OnInit {
   public itemsPerPageChange(value: number) {
     this.studentListService.itemsPerPageChange(value);
   }
-}
-function fetchPage(page: any): any {
-  throw new Error('Function not implemented.');
-}
 
-function mergeMap(
-  arg0: ({ items, nextPage }: { items: any; nextPage: any }) => any
-): import('rxjs').OperatorFunction<unknown, unknown> {
-  throw new Error('Function not implemented.');
-}
-
-function from(items: any) {
-  throw new Error('Function not implemented.');
-}
-
-function concat(items$: any, next$: any) {
-  throw new Error('Function not implemented.');
+  public filterStudents(value: string) {
+    this.studentListService.filterStudents(value);
+  }
 }

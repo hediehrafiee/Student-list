@@ -16,6 +16,7 @@
         [button]="true"
         [disabled]="false"
         [(ngModel)]="searchVal"
+        (ngModelChange)="filterStudents($event)"
         (addOnButtonClicked)="searchVal = ''"
       >
       </fd-input-group>

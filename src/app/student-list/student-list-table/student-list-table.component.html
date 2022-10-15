@@ -11,7 +11,7 @@
 
   <tbody fd-table-body>
     <tr
-      *ngFor="let row of studentList | filter: filterVal; let i = index"
+      *ngFor="let row of studentList; let i = index"
       fd-table-row
       [attr.aria-selected]="row.checked"
     >

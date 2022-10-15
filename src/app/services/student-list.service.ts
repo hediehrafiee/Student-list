@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, Observable, Subject } from 'rxjs';
 
 import { StudentList } from '../interfaces/student.interface';
 
@@ -9,9 +9,11 @@ import { StudentList } from '../interfaces/student.interface';
 export class StudentListService {
   private _itemsPerPage$ = new BehaviorSubject<number>(3);
   private _currentPage$ = new BehaviorSubject<number>(1);
+  private _totalItems$ = new BehaviorSubject<number>(0);
 
   private _studentList$ = new BehaviorSubject<StudentList[]>([]);
   public itemsPerPageOptions: number[] = [3, 6, 9];
+  private _searchTerm = new BehaviorSubject<string>('');
 
   constructor() {
     this._studentList$.next([
@@ -61,24 +63,40 @@ export class StudentListService {
   }
 
   public get itemsPerPage$(): Observable<number> {
-    return this._itemsPerPage$;
+    return this._itemsPerPage$.asObservable();
   }
 
   public get currentPage$(): Observable<number> {
-    return this._currentPage$;
+    return this._currentPage$.asObservable();
   }
 
   public get totalItems$(): Observable<number> {
-    return this._studentList$.asObservable().pipe(map((c) => c.length));
+    return this._totalItems$.asObservable();
   }
 
   public get students$(): Observable<StudentList[]> {
     return combineLatest([
       this._studentList$,
+      this._searchTerm,
       this._itemsPerPage$,
       this._currentPage$,
     ]).pipe(
-      map(([list, perPage, currPage]) => {
+      map(([studentList, searchTerm, perPage, currPage]) => {
+        let list: StudentList[] = studentList;
+
+        if (searchTerm) {
+          list = studentList.filter((row: any): boolean => {
+            const keys = Object.keys(row);
+            return !!keys.find((key) =>
+              row[key]
+                .toString()
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase())
+            );
+          });
+        }
+
+        this._totalItems$.next(list.length);
         return list.slice((currPage - 1) * perPage, currPage * perPage);
       })
     );
@@ -108,5 +126,9 @@ export class StudentListService {
 
   public itemsPerPageChange(value: number): void {
     this._itemsPerPage$.next(value);
+  }
+
+  public filterStudents(searchTerm: string): void {
+    this._searchTerm.next(searchTerm);
   }
 }

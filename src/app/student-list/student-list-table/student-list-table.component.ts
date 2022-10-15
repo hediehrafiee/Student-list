@@ -1,3 +1,8 @@
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { RangeSelector } from '@fundamental-ngx/core/utils';
 import { PageData } from '../../interfaces/page.interface';
@@ -10,6 +15,8 @@ import { StudentListService } from '../../services/student-list.service';
   styleUrls: ['./student-list-table.component.scss'],
 })
 export class StudentListTableComponent {
+  items = ['Zero', 'One', 'Two', 'Three'];
+
   private readonly _rangeSelector = new RangeSelector();
 
   @Input() studentList: StudentList[] = [];
@@ -56,5 +63,26 @@ export class StudentListTableComponent {
 
   public itemsPerPageClicked(value: number) {
     this.itemsPerPageChange.emit(value);
+  }
+
+  public onDrop(event: any) {
+    moveItemInArray(this.studentList, event.previousIndex, event.currentIndex);
+  }
+
+  drop(event: CdkDragDrop<any[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    }
   }
 }

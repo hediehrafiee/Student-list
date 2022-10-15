@@ -5,9 +5,14 @@ import {
 } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { CommonModule } from '@angular/common';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import {
   DialogModule,
   FeedInputModule,
@@ -15,12 +20,12 @@ import {
   FundamentalNgxCoreModule,
   InputGroupModule,
 } from '@fundamental-ngx/core';
+
 import { StudentListComponent } from './student-list/student-list.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StudentListTableComponent } from './student-list/student-list-table/student-list-table.component';
 import { AddStudentButtonComponent } from './student-list/add-student-button/add-student-button.component';
+
 import { HighlightDirective } from './directives/highlight.directive';
-import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -43,6 +48,7 @@ import { CommonModule } from '@angular/common';
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
+    DragDropModule,
   ],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [],

@@ -1,4 +1,13 @@
-<table fd-table fdCozy aria-label="Default" [allCellsFocusable]="true">
+<table
+  fd-table
+  fdCozy
+  aria-label="Default"
+  [allCellsFocusable]="true"
+  cdkDropList
+  [cdkDropListData]="studentList"
+  (cdkDropListDropped)="drop($event)"
+  class="example-list"
+>
   <thead fd-table-header>
     <tr fd-table-row>
       <th fd-table-cell></th>
@@ -14,6 +23,7 @@
       *ngFor="let row of studentList; let i = index"
       fd-table-row
       [attr.aria-selected]="row.checked"
+      cdkDrag
     >
       <td fd-table-cell>
         <fd-checkbox

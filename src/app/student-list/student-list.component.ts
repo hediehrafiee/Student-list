@@ -2,21 +2,10 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { DialogService } from '@fundamental-ngx/core';
 
-import {
-  defer,
-  EMPTY,
-  expand,
-  interval,
-  map,
-  merge,
-  Observable,
-  of,
-  range,
-  reduce,
-  take,
-} from 'rxjs';
-import { PageData } from '../interfaces/page.interface';
+import { Observable } from 'rxjs';
+import { Menu } from '../interfaces/menu';
 import { StudentList } from '../interfaces/student.interface';
+
 import { StudentListService } from '../services/student-list.service';
 
 @Component({
@@ -25,8 +14,39 @@ import { StudentListService } from '../services/student-list.service';
   styleUrls: ['./student-list.component.scss'],
 })
 export class StudentListComponent implements OnInit {
-  public searchVal = '';
-
+  public menusItems: Menu[] = [
+    {
+      icon: 'employee',
+      value: 'STUDENT_LIST',
+    },
+    {
+      icon: 'appointment-2',
+      value: 'calendar',
+    },
+    {
+      icon: 'settings',
+      value: 'setting',
+      children: [
+        {
+          title: 'Link 1',
+          value: 'LinkOne',
+        },
+        {
+          title: 'Link 2',
+          value: 'LinkTwo',
+        },
+        {
+          title: 'Link 3',
+          value: 'LinkThree',
+        },
+      ],
+    },
+    {
+      icon: 'donut-chart',
+      value: 'donutChart',
+    },
+  ];
+  public searchVal: string = '';
   public selectedIndex: Array<number>;
   public students$: Observable<StudentList[]>;
   public currentPage$: Observable<number>;
@@ -48,7 +68,7 @@ export class StudentListComponent implements OnInit {
     public readonly studentListService: StudentListService
   ) {}
 
-  addStudentForm = this.formBuilder.group({
+  public addStudentForm = this.formBuilder.group({
     name: ['', Validators.required],
     family: ['', Validators.required],
     age: ['', Validators.required],

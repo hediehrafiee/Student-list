@@ -1,71 +1,40 @@
-<fd-side-nav [condensed]="true">
-  <div fd-side-nav-main>
-    <ul fd-nested-list>
-      <li *ngFor="let menu of menusItems" fd-nested-list-item>
-        <a *ngIf="!menu.children; else nestedList" fd-nested-list-link>
-          <i fd-nested-list-icon [glyph]="menu.icon"></i>
-        </a>
-        <ng-template #nestedList>
-          <fd-nested-list-popover>
-            <div fd-nested-list-content [selected]="true">
-              <i fd-nested-list-icon [glyph]="menu.icon"></i>
-              <button fd-nested-list-expand-icon></button>
-            </div>
-            <ul fd-nested-list>
-              <ng-container *ngFor="let child of menu.children">
-                <li fd-nested-list-item>
-                  <a fd-nested-list-link>
-                    <span fd-nested-list-title>{{ child.title }}</span>
-                  </a>
-                </li>
-              </ng-container>
-            </ul>
-          </fd-nested-list-popover>
-        </ng-template>
-      </li>
-    </ul>
-  </div>
-</fd-side-nav>
+<app-add-student-button (addStudent)="add()"></app-add-student-button>
+<fd-toolbar>
+  <label fd-toolbar-label> Filter and sort for table elements </label>
+  <fd-toolbar-spacer></fd-toolbar-spacer>
+  <ng-container fdCompact>
+    <button fd-button fdType="negative" (click)="delete()">
+      <fd-icon [glyph]="'delete'"></fd-icon>
+    </button>
 
-<div class="container">
-  <app-add-student-button (addStudent)="add()"></app-add-student-button>
-  <fd-toolbar>
-    <label fd-toolbar-label> Filter and sort for table elements </label>
-    <fd-toolbar-spacer></fd-toolbar-spacer>
-    <ng-container fdCompact>
-      <button fd-button fdType="negative" (click)="delete()">
-        <fd-icon [glyph]="'delete'"></fd-icon>
-      </button>
-
-      <fd-input-group
-        glyph="decline"
-        glyphAriaLabel="Clear"
-        title="Search"
-        placeholder="Search"
-        [button]="true"
-        [disabled]="false"
-        [(ngModel)]="searchVal"
-        (ngModelChange)="filterStudents($event)"
-        (addOnButtonClicked)="searchVal = ''"
-      >
-      </fd-input-group>
-    </ng-container>
-  </fd-toolbar>
-
-  <ng-container *ngIf="students$ | async as students">
-    <app-student-list-table
-      [filterVal]="searchVal"
-      [studentList]="students"
-      [itemsPerPageOptions]="itemsPerPageOptions"
-      [currentPage]="(currentPage$ | async)!!"
-      [itemsPerPage]="(itemsPerPage$ | async)!!"
-      [totalItems]="(totalItems$ | async)!!"
-      (selectedIndex)="selectedIndex = $event"
-      (newPageClicked)="newPageClicked($event)"
-      (itemsPerPageChange)="itemsPerPageChange($event)"
-    ></app-student-list-table>
+    <fd-input-group
+      glyph="decline"
+      glyphAriaLabel="Clear"
+      title="Search"
+      placeholder="Search"
+      [button]="true"
+      [disabled]="false"
+      [(ngModel)]="searchVal"
+      (ngModelChange)="filterStudents($event)"
+      (addOnButtonClicked)="searchVal = ''"
+    >
+    </fd-input-group>
   </ng-container>
-</div>
+</fd-toolbar>
+
+<ng-container *ngIf="students$ | async as students">
+  <app-student-list-table
+    [filterVal]="searchVal"
+    [studentList]="students"
+    [itemsPerPageOptions]="itemsPerPageOptions"
+    [currentPage]="(currentPage$ | async)!!"
+    [itemsPerPage]="(itemsPerPage$ | async)!!"
+    [totalItems]="(totalItems$ | async)!!"
+    (selectedIndex)="selectedIndex = $event"
+    (newPageClicked)="newPageClicked($event)"
+    (itemsPerPageChange)="itemsPerPageChange($event)"
+  ></app-student-list-table>
+</ng-container>
 
 <ng-template let-dialog let-dialogConfig="dialogConfig" #addStudentDialog>
   <fd-dialog [dialogConfig]="dialogConfig" [dialogRef]="dialog">

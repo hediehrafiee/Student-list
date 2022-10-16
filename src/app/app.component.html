@@ -1,1 +1,42 @@
-<router-outlet></router-outlet>
+<div class="flex">
+  <div>
+    <fd-side-nav [condensed]="true">
+      <div fd-side-nav-main>
+        <ul fd-nested-list>
+          <li *ngFor="let menu of menusItems" fd-nested-list-item>
+            <a
+              *ngIf="!menu.children; else nestedList"
+              (click)="selectMenu(menu.value)"
+              fd-nested-list-link
+            >
+              <i fd-nested-list-icon [glyph]="menu.icon"></i>
+            </a>
+            <ng-template #nestedList>
+              <fd-nested-list-popover>
+                <div fd-nested-list-content>
+                  <i fd-nested-list-icon [glyph]="menu.icon"></i>
+                  <button fd-nested-list-expand-icon></button>
+                </div>
+                <ul fd-nested-list>
+                  <ng-container *ngFor="let child of menu.children">
+                    <li fd-nested-list-item>
+                      <a (click)="selectMenu(child.value)" fd-nested-list-link>
+                        <span fd-nested-list-title>{{ child.title }}</span>
+                      </a>
+                    </li>
+                  </ng-container>
+                </ul>
+              </fd-nested-list-popover>
+            </ng-template>
+          </li>
+        </ul>
+      </div>
+    </fd-side-nav>
+  </div>
+
+  <div class="container">
+    <ng-container #content>
+      <router-outlet></router-outlet>
+    </ng-container>
+  </div>
+</div>

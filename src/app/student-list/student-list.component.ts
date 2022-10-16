@@ -14,38 +14,6 @@ import { StudentListService } from '../services/student-list.service';
   styleUrls: ['./student-list.component.scss'],
 })
 export class StudentListComponent implements OnInit {
-  public menusItems: Menu[] = [
-    {
-      icon: 'employee',
-      value: 'STUDENT_LIST',
-    },
-    {
-      icon: 'appointment-2',
-      value: 'calendar',
-    },
-    {
-      icon: 'settings',
-      value: 'setting',
-      children: [
-        {
-          title: 'Link 1',
-          value: 'LinkOne',
-        },
-        {
-          title: 'Link 2',
-          value: 'LinkTwo',
-        },
-        {
-          title: 'Link 3',
-          value: 'LinkThree',
-        },
-      ],
-    },
-    {
-      icon: 'donut-chart',
-      value: 'donutChart',
-    },
-  ];
   public searchVal: string = '';
   public selectedIndex: Array<number>;
   public students$: Observable<StudentList[]>;

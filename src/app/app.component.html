@@ -1,26 +1,27 @@
 <div class="flex">
   <div>
-    <fd-side-nav [condensed]="true">
-      <!-- <div fd-side-nav-main>
+    <fd-side-nav [condensed]="true" *ngIf="tabs">
+      <div fd-side-nav-main>
         <ul fd-nested-list>
-          <li *ngFor="let menu of menusItems" fd-nested-list-item>
+          <li *ngFor="let tab of tabs" fd-nested-list-item>
             <a
-              *ngIf="!menu.children; else nestedList"
-              (click)="selectMenu(menu.value)"
+              *ngIf="!tab.children; else nestedList"
+              (click)="selectMenu()"
               fd-nested-list-link
             >
-              <i fd-nested-list-icon [glyph]="menu.icon"></i>
+              <!-- <i fd-nested-list-icon [glyph]="menu.icon"></i> -->
+              <span fd-nested-list-title>{{ tab.title }}</span>
             </a>
             <ng-template #nestedList>
               <fd-nested-list-popover>
                 <div fd-nested-list-content>
-                  <i fd-nested-list-icon [glyph]="menu.icon"></i>
+                  <!-- <i fd-nested-list-icon [glyph]="menu.icon"></i> -->
                   <button fd-nested-list-expand-icon></button>
                 </div>
                 <ul fd-nested-list>
-                  <ng-container *ngFor="let child of menu.children">
+                  <ng-container *ngFor="let child of tab.children">
                     <li fd-nested-list-item>
-                      <a (click)="selectMenu(child.value)" fd-nested-list-link>
+                      <a (click)="selectMenu()" fd-nested-list-link>
                         <span fd-nested-list-title>{{ child.title }}</span>
                       </a>
                     </li>
@@ -30,7 +31,7 @@
             </ng-template>
           </li>
         </ul>
-      </div> -->
+      </div>
     </fd-side-nav>
   </div>
 

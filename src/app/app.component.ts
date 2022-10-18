@@ -53,6 +53,8 @@ export class AppComponent implements OnInit {
   private menu = menu;
   public tabs: any = [];
 
+  private tabsId: number = 0;
+
   constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
 
   public selectMenu(value?: any) {
@@ -69,115 +71,116 @@ export class AppComponent implements OnInit {
       this.menu.items[0].items[0].items as Array<any>
     ).find((item: any) => item.Type === 'TabbedGroup');
 
-    let test = this.convertMenu2(findTaggedGroup.items);
-    console.log(test);
-
-    // this.convertMenu(findTaggedGroup.items);
-    // console.log(this.tabs);
-    this.convertMenu3(findTaggedGroup.items);
+    this.convertMenu(findTaggedGroup.items);
+    this.tabs = this.convertTabs(this.tabs);
     console.log(this.tabs);
   }
 
-  level = 0;
-  convertMenu2(items: any) {
-    return items.reduce((perv: any, current: any, index: number) => {
-      perv.push({
-        title: current.Title,
-
-        id: this.level,
-
-        xtype: current.xtype,
-
-        type: current.Type,
-        children:
-          current.items && current.items.length
-            ? this.convertMenu2(current.items)
-            : [],
-      });
-
-      return perv;
-    }, []);
+  convertTabs(items: any, id = 0) {
+    return items
+      .filter((item: any) => item.parentID === id)
+      .map((item: any) => ({
+        ...item,
+        children: this.convertTabs(items, item.id),
+      }));
   }
 
-  findTab: number = -1;
-  findTabChild: number = -1;
   convertMenu(items: any, parent = 0) {
-    for (let i = 0; i < items.length; i++) {
-      if (items[i].Type === 'LayoutGroup') {
-        this.findTab = this.tabs.findIndex(
-          (tab: any) => tab.title && tab.parent < parent
-        );
-        // if (this.findTab !== -1)
-        //   this.findTabChild = this.tabs[this.findTab].child?.findIndex(
-        //     (tab: any) => tab.title && tab.parent < parent
-        //   );
-      }
-
-      if (
-        this.findTab !== -1 &&
-        this.findTabChild !== -1 &&
-        items[i].Title &&
-        items[i].Type === 'LayoutGroup'
-      ) {
-        if (items[i].TextVisible?.toString() === 'false') return;
-        console.log(
-          'here',
-          this.tabs[this.findTab].child[this.findTabChild].child
-        );
-        this.tabs[this.findTab].child[this.findTabChild].child.push({
-          title: items[i].Title,
-          parent: parent,
-          child: [],
-        });
-      } else if (
-        this.findTab !== -1 &&
-        items[i].Title &&
-        items[i].Type === 'LayoutGroup'
-      ) {
-        if (items[i].TextVisible?.toString() === 'false') return;
-        this.tabs[this.findTab].child.push({
-          title: items[i].Title,
-          parent: parent,
-          child: [],
-        });
-      } else if (items[i].Title && items[i].Type === 'LayoutGroup') {
-        this.tabs.push({
-          title: items[i].Title,
-          parent: parent,
-          child: [],
-        });
-      }
-
-      if (items[i].items) {
-        this.convertMenu(items[i].items, parent + 1);
-      }
-    }
-  }
-
-  id: number = 0;
-  convertMenu3(items: any, parent = 0) {
     for (let item of items) {
       if (
         item.Type === 'LayoutGroup' &&
         item.Title &&
         item.TextVisible?.toString() !== 'false'
       ) {
-        this.id++;
+        this.tabsId++;
 
         this.tabs.push({
           title: item.Title,
 
-          id: this.id,
+          id: this.tabsId,
 
-          parent: parent,
+          parentID: parent,
         });
       }
 
       if (item.items)
-        this.convertMenu3(
+        this.convertMenu(
           item.items,
-          item.Type === 'LayoutGroup' && item.Title ? this.id : parent
+          item.Type === 'LayoutGroup' && item.Title ? this.tabsId : parent
         );
     }
   }
+
+  // convertMenu2(items: any) {
+  //   return items.reduce((perv: any, current: any, index: number) => {
+  //     perv.push({
+  //       title: current.Title,
+
+  //       xtype: current.xtype,
+
+  //       type: current.Type,
+  //       children:
+  //         current.items && current.items.length
+  //           ? this.convertMenu2(current.items)
+  //           : [],
+  //     });
+
+  //     return perv;
+  //   }, []);
+  // }
+
+  // findTab: number = -1;
+  // findTabChild: number = -1;
+  // convertMenu(items: any, parent = 0) {
+  //   for (let i = 0; i < items.length; i++) {
+  //     if (items[i].Type === 'LayoutGroup') {
+  //       this.findTab = this.tabs.findIndex(
+  //         (tab: any) => tab.title && tab.parent < parent
+  //       );
+  //       // if (this.findTab !== -1)
+  //       //   this.findTabChild = this.tabs[this.findTab].child?.findIndex(
+  //       //     (tab: any) => tab.title && tab.parent < parent
+  //       //   );
+  //     }
+
+  //     if (
+  //       this.findTab !== -1 &&
+  //       this.findTabChild !== -1 &&
+  //       items[i].Title &&
+  //       items[i].Type === 'LayoutGroup'
+  //     ) {
+  //       if (items[i].TextVisible?.toString() === 'false') return;
+  //       console.log(
+  //         'here',
+  //         this.tabs[this.findTab].child[this.findTabChild].child
+  //       );
+  //       this.tabs[this.findTab].child[this.findTabChild].child.push({
+  //         title: items[i].Title,
+  //         parent: parent,
+  //         child: [],
+  //       });
+  //     } else if (
+  //       this.findTab !== -1 &&
+  //       items[i].Title &&
+  //       items[i].Type === 'LayoutGroup'
+  //     ) {
+  //       if (items[i].TextVisible?.toString() === 'false') return;
+  //       this.tabs[this.findTab].child.push({
+  //         title: items[i].Title,
+  //         parent: parent,
+  //         child: [],
+  //       });
+  //     } else if (items[i].Title && items[i].Type === 'LayoutGroup') {
+  //       this.tabs.push({
+  //         title: items[i].Title,
+  //         parent: parent,
+  //         child: [],
+  //       });
+  //     }
+
+  //     if (items[i].items) {
+  //       this.convertMenu(items[i].items, parent + 1);
+  //     }
+  //   }
+  // }
 }

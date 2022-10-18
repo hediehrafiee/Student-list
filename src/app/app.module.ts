@@ -27,9 +27,9 @@ import { StudentListTableComponent } from './student-list/student-list-table/stu
 import { AddStudentButtonComponent } from './student-list/add-student-button/add-student-button.component';
 
 import { HighlightDirective } from './directives/highlight.directive';
-import { TestComponent } from './test/test.component';
 import { MenuComponent } from './menu/menu.component';
 import { MenuChildComponent } from './menu/menu-child/menu-child.component';
+import { PersonalPanelComponent } from './menu-components/personal-panel/personal-panel.component';
 
 @NgModule({
   declarations: [
@@ -39,9 +39,9 @@ import { MenuChildComponent } from './menu/menu-child/menu-child.component';
     AddStudentButtonComponent,
 
     HighlightDirective,
-    TestComponent,
     MenuComponent,
     MenuChildComponent,
+    PersonalPanelComponent,
   ],
   imports: [
     BrowserModule,

@@ -125,3 +125,15 @@ html {
 .fd-nested-list__content {
   padding-left: 0 !important;
 }
+
+.fd-side-nav--condensed {
+  width: 11.75rem !important;
+}
+
+.fd-side-nav--condensed .fd-nested-list__title {
+  display: block !important;
+}
+
+// .fd-nested-list--text-only {
+//   width: 300px !important;
+// }

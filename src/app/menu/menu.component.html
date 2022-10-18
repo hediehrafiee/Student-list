@@ -1,6 +1,6 @@
-<fd-side-nav>
+<fd-side-nav [condensed]="true">
   <div fd-side-nav-main>
-    <ul fd-nested-list [textOnly]="true">
+    <ul fd-nested-list>
       <li fd-nested-list-item *ngFor="let tab of tabs">
         <app-menu-child [tab]="tab"></app-menu-child>
         <!-- <ng-container *ngIf="!tab.children.length; else isNested">

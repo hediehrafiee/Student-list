@@ -19,6 +19,7 @@ import {
   FormModule,
   FundamentalNgxCoreModule,
   InputGroupModule,
+  RtlService,
 } from '@fundamental-ngx/core';
 
 import { StudentListComponent } from './student-list/student-list.component';
@@ -38,9 +39,9 @@ import { MenuChildComponent } from './menu/menu-child/menu-child.component';
     AddStudentButtonComponent,
 
     HighlightDirective,
-      TestComponent,
-      MenuComponent,
-      MenuChildComponent,
+    TestComponent,
+    MenuComponent,
+    MenuChildComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,7 +58,7 @@ import { MenuChildComponent } from './menu/menu-child/menu-child.component';
     DragDropModule,
   ],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
-  providers: [],
+  providers: [RtlService],
   exports: [HighlightDirective],
   bootstrap: [AppComponent],
 })

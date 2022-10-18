@@ -5,6 +5,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
+import { RtlService } from '@fundamental-ngx/core';
 
 import { menu } from './const/menu';
 
@@ -17,45 +18,16 @@ export class AppComponent implements OnInit {
   title = 'test-barsa';
   @ViewChild('content', { read: ViewContainerRef })
   content: ViewContainerRef;
-  // public menusItems: Menu[] = [
-  //   {
-  //     icon: 'employee',
-  //     value: StudentListComponent,
-  //   },
-  //   {
-  //     icon: 'appointment-2',
-  //     value: TestComponent,
-  //   },
-  //   {
-  //     icon: 'settings',
-  //     value: 'setting',
-  //     children: [
-  //       {
-  //         title: 'Link 1',
-  //         value: 'LinkOne',
-  //       },
-  //       {
-  //         title: 'Link 2',
-  //         value: 'LinkTwo',
-  //       },
-  //       {
-  //         title: 'Link 3',
-  //         value: 'LinkThree',
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     icon: 'donut-chart',
-  //     value: 'donutChart',
-  //   },
-  // ];
 
   private menu = menu;
   public tabs: any = [];
 
   private tabsId: number = 0;
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
+  constructor(
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private rtlService: RtlService
+  ) {}
 
   public selectMenu(value?: any) {
     if (!value) return;
@@ -67,6 +39,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.rtlService.rtl.next(true);
     const findTaggedGroup = (
       this.menu.items[0].items[0].items as Array<any>
     ).find((item: any) => item.Type === 'TabbedGroup');

@@ -131,9 +131,22 @@ html {
 }
 
 .fd-side-nav--condensed .fd-nested-list__title {
+  display: flex !important;
+}
+
+.fd-popover-custom {
+  width: 100% !important;
+}
+
+.fd-nested-list__button.fd-button {
+  pointer-events: none;
   display: block !important;
 }
 
-// .fd-nested-list--text-only {
-//   width: 300px !important;
-// }
+.fd-nested-list__title {
+  padding-right: 0.75rem !important;
+}
+
+.fd-nested-list--text-only .fd-nested-list__link {
+  padding-right: 0 !important;
+}

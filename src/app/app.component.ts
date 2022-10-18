@@ -72,7 +72,9 @@ export class AppComponent implements OnInit {
     let test = this.convertMenu2(findTaggedGroup.items);
     console.log(test);
 
-    this.convertMenu(findTaggedGroup.items);
+    // this.convertMenu(findTaggedGroup.items);
+    // console.log(this.tabs);
+    this.convertMenu3(findTaggedGroup.items);
     console.log(this.tabs);
   }
 
@@ -85,6 +87,8 @@ export class AppComponent implements OnInit {
         id: this.level,
 
         xtype: current.xtype,
+
+        type: current.Type,
         children:
           current.items && current.items.length
             ? this.convertMenu2(current.items)
@@ -100,8 +104,6 @@ export class AppComponent implements OnInit {
   convertMenu(items: any, parent = 0) {
     for (let i = 0; i < items.length; i++) {
       if (items[i].Type === 'LayoutGroup') {
-        console.log(this.tabs, items[i]);
-
         this.findTab = this.tabs.findIndex(
           (tab: any) => tab.title && tab.parent < parent
         );
@@ -149,6 +151,33 @@ export class AppComponent implements OnInit {
       if (items[i].items) {
         this.convertMenu(items[i].items, parent + 1);
       }
+    }
+  }
+
+  id: number = 0;
+  convertMenu3(items: any, parent = 0) {
+    for (let item of items) {
+      if (
+        item.Type === 'LayoutGroup' &&
+        item.Title &&
+        item.TextVisible?.toString() !== 'false'
+      ) {
+        this.id++;
+
+        this.tabs.push({
+          title: item.Title,
+
+          id: this.id,
+
+          parent: parent,
+        });
+      }
+
+      if (item.items)
+        this.convertMenu3(
+          item.items,
+          item.Type === 'LayoutGroup' && item.Title ? this.id : parent
+        );
     }
   }
 }

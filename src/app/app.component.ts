@@ -6,8 +6,9 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { RtlService } from '@fundamental-ngx/core';
+import { Components } from './const/components';
 
-import { menu } from './const/menu';
+import { TabsService } from './services/tabs.service';
 
 @Component({
   selector: 'app-root',
@@ -19,38 +20,42 @@ export class AppComponent implements OnInit {
   @ViewChild('content', { read: ViewContainerRef })
   content: ViewContainerRef;
 
-  private menu = menu;
   public tabs: any = [];
 
   private tabsId: number = 0;
 
+  public personalComponents: any = Components;
+
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
-    private rtlService: RtlService
+    private rtlService: RtlService,
+    private readonly tabsService: TabsService
   ) {}
 
-  public selectMenu(value?: any) {
-    if (!value) return;
+  ngOnInit(): void {
+    this.rtlService.rtl.next(true);
+    this.tabsService.getTabs().subscribe((data: any): void => {
+      const findTaggedGroup = (data.items[0].items[0].items as Array<any>).find(
+        (item: any) => item.Type === 'TabbedGroup'
+      );
 
+      this.convertMenu(findTaggedGroup.items);
+      console.log(this.tabs);
+      this.tabs = this.convertTabs(this.tabs);
+      this.tabs.unshift({ title: 'اصلی', id: 0, children: [] });
+      console.log(this.tabs);
+    });
+  }
+
+  public selectMenu(id: number) {
+    const selectedComponent = this.personalComponents[id];
     const componentFactory =
-      this.componentFactoryResolver.resolveComponentFactory(value);
+      this.componentFactoryResolver.resolveComponentFactory(selectedComponent);
     this.content.clear();
     this.content.createComponent(componentFactory);
   }
 
-  ngOnInit(): void {
-    this.rtlService.rtl.next(true);
-    const findTaggedGroup = (
-      this.menu.items[0].items[0].items as Array<any>
-    ).find((item: any) => item.Type === 'TabbedGroup');
-
-    this.convertMenu(findTaggedGroup.items);
-    console.log(this.tabs);
-    this.tabs = this.convertTabs(this.tabs);
-    console.log(this.tabs);
-  }
-
-  convertTabs(items: any, id = 0) {
+  private convertTabs(items: any, id = 0) {
     return items
       .filter((item: any) => item.parentID === id)
       .map((item: any) => ({
@@ -59,7 +64,7 @@ export class AppComponent implements OnInit {
       }));
   }
 
-  convertMenu(items: any, parent = 0) {
+  private convertMenu(items: any, parent = 0) {
     for (let item of items) {
       if (
         item.Type === 'LayoutGroup' &&

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-menu-child',
@@ -7,8 +7,14 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class MenuChildComponent implements OnInit {
   @Input() tab: any;
+  @Output() public selectedTab: EventEmitter<number> =
+    new EventEmitter<number>();
 
   constructor() {}
 
   ngOnInit(): void {}
+
+  selectTab(id: number): void {
+    this.selectedTab.emit(id);
+  }
 }

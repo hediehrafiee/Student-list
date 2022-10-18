@@ -30,6 +30,7 @@ import { HighlightDirective } from './directives/highlight.directive';
 import { MenuComponent } from './menu/menu.component';
 import { MenuChildComponent } from './menu/menu-child/menu-child.component';
 import { PersonalPanelComponent } from './menu-components/personal-panel/personal-panel.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { PersonalPanelComponent } from './menu-components/personal-panel/persona
     ReactiveFormsModule,
     CommonModule,
     DragDropModule,
+    HttpClientModule,
   ],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
   providers: [RtlService],

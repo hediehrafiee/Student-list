@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-menu',
@@ -7,8 +7,15 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class MenuComponent implements OnInit {
   @Input() tabs: any;
+  @Output() public selectedTab: EventEmitter<number> =
+    new EventEmitter<number>();
 
   constructor() {}
 
   ngOnInit(): void {}
+
+  selectTab(id: number): void {
+    console.log('here', id);
+    this.selectedTab.emit(id);
+  }
 }

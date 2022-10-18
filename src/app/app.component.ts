@@ -72,6 +72,7 @@ export class AppComponent implements OnInit {
     ).find((item: any) => item.Type === 'TabbedGroup');
 
     this.convertMenu(findTaggedGroup.items);
+    console.log(this.tabs);
     this.tabs = this.convertTabs(this.tabs);
     console.log(this.tabs);
   }

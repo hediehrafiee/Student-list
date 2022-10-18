@@ -120,3 +120,8 @@ html {
 .cdk-visually-hidden {
   display: none;
 }
+
+.fd-nested-list__link,
+.fd-nested-list__content {
+  padding-left: 0 !important;
+}

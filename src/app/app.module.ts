@@ -27,6 +27,8 @@ import { AddStudentButtonComponent } from './student-list/add-student-button/add
 
 import { HighlightDirective } from './directives/highlight.directive';
 import { TestComponent } from './test/test.component';
+import { MenuComponent } from './menu/menu.component';
+import { MenuChildComponent } from './menu/menu-child/menu-child.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,8 @@ import { TestComponent } from './test/test.component';
 
     HighlightDirective,
       TestComponent,
+      MenuComponent,
+      MenuChildComponent,
   ],
   imports: [
     BrowserModule,

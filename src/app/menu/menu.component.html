@@ -1,0 +1,44 @@
+<fd-side-nav>
+  <div fd-side-nav-main>
+    <ul fd-nested-list [textOnly]="true">
+      <li fd-nested-list-item *ngFor="let tab of tabs">
+        <app-menu-child [tab]="tab"></app-menu-child>
+        <!-- <ng-container *ngIf="!tab.children.length; else isNested">
+          <a fd-nested-list-link>
+            <span fd-nested-list-title>{{ tab.title }}</span>
+          </a>
+        </ng-container>
+        <ng-template #isNested>
+          <div fd-nested-list-content>
+            <a fd-nested-list-link>
+              <span fd-nested-list-title>{{ tab.title }}</span>
+            </a>
+            <button fd-nested-list-expand-icon></button>
+          </div>
+          <ul fd-nested-list>
+            <li *ngFor="let child of tab.children" fd-nested-list-item>
+              <a fd-nested-list-link>
+                <span fd-nested-list-title>{{ child.title }} </span>
+              </a>
+            </li>
+            <li fd-nested-list-item>
+              <a fd-nested-list-link>
+                <span fd-nested-list-title>Link 2</span>
+              </a>
+            </li>
+            <li fd-nested-list-item>
+              <a fd-nested-list-link>
+                <span fd-nested-list-title>Link 3</span>
+              </a>
+            </li>
+            <li fd-nested-list-item>
+              <a fd-nested-list-link>
+                <span fd-nested-list-title>Link 4</span>
+              </a>
+            </li>
+          </ul>
+        </ng-template> -->
+      </li>
+    </ul>
+  </div>
+</fd-side-nav>

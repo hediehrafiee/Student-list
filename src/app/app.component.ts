@@ -1,4 +1,6 @@
 import {
+  AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ComponentFactoryResolver,
   OnInit,
@@ -15,7 +17,7 @@ import { TabsService } from './services/tabs.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
   title = 'test-barsa';
   @ViewChild('content', { read: ViewContainerRef })
   content: ViewContainerRef;
@@ -29,7 +31,8 @@ export class AppComponent implements OnInit {
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
     private rtlService: RtlService,
-    private readonly tabsService: TabsService
+    private readonly tabsService: TabsService,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -40,15 +43,16 @@ export class AppComponent implements OnInit {
       );
 
       this.convertMenu(findTaggedGroup.items);
-      console.log(this.tabs);
       this.tabs = this.convertTabs(this.tabs);
       this.tabs.unshift({ title: 'اصلی', id: 0, children: [] });
-      console.log(this.tabs);
+      this.cd.detectChanges();
     });
   }
 
   public selectMenu(id: number) {
     const selectedComponent = this.personalComponents[id];
+    if (!selectedComponent) return;
+
     const componentFactory =
       this.componentFactoryResolver.resolveComponentFactory(selectedComponent);
     this.content.clear();
@@ -67,7 +71,7 @@ export class AppComponent implements OnInit {
   private convertMenu(items: any, parent = 0) {
     for (let item of items) {
       if (
-        item.Type === 'LayoutGroup' &&
+        item.xtype === 'Ly.LayoutTabPage' &&
         item.Title &&
         item.TextVisible?.toString() !== 'false'
       ) {
@@ -90,6 +94,11 @@ export class AppComponent implements OnInit {
     }
   }
 
+  ngAfterViewInit() {
+    this.tabsService.tabSelectedUpdate$.subscribe((id: number) => {
+      this.selectMenu(id);
+    });
+  }
   // convertMenu2(items: any) {
   //   return items.reduce((perv: any, current: any, index: number) => {
   //     perv.push({

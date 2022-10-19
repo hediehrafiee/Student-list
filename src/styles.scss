@@ -146,7 +146,6 @@ html {
 }
 
 .fd-nested-list__button.fd-button {
-  pointer-events: none;
   display: block !important;
 }
 
@@ -178,4 +177,17 @@ a,
 
 .flex-1 {
   flex: 1;
+}
+
+.fd-nested-list__content {
+  padding-right: 0px !important;
+}
+
+.fd-nested-list__title {
+  white-space: nowrap;
+  width: 200px !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block !important;
+  padding-top: 10px !important;
 }

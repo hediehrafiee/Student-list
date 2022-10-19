@@ -1,20 +1,16 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { TabsService } from '../../services/tabs.service';
 
 @Component({
   selector: 'app-menu-child',
   templateUrl: './menu-child.component.html',
   styleUrls: ['./menu-child.component.scss'],
 })
-export class MenuChildComponent implements OnInit {
+export class MenuChildComponent {
   @Input() tab: any;
-  @Output() public selectedTab: EventEmitter<number> =
-    new EventEmitter<number>();
 
-  constructor() {}
-
-  ngOnInit(): void {}
-
+  constructor(private tabService: TabsService) {}
   selectTab(id: number): void {
-    this.selectedTab.emit(id);
+    this.tabService.selectTab(id);
   }
 }

@@ -1,0 +1,120 @@
+<fd-layout-grid>
+  <div [fdLayoutGridCol]="4">
+    <fd-card>
+      <fd-card-header>
+        <div fd-card-title>
+          <h4 class="fd-title">اطلاعات سازمانی رسمی</h4>
+        </div>
+      </fd-card-header>
+      <fd-card-content>
+        <ul fd-list>
+          <li fd-list-item>
+            <fd-layout-grid>
+              <span class="text-blue" [fdLayoutGridCol]="4">
+                واحد سازمانی رسمی :
+              </span>
+              <span class="sub-title" [fdLayoutGridCol]="6" fd-list-title>
+              </span>
+            </fd-layout-grid>
+          </li>
+          <li fd-list-item>
+            <fd-layout-grid>
+              <span class="text-blue" [fdLayoutGridCol]="4">
+                پست سازمانی رسمی:
+              </span>
+              <span class="sub-title" [fdLayoutGridCol]="6" fd-list-title>
+              </span>
+            </fd-layout-grid>
+          </li>
+          <li fd-list-item>
+            <fd-layout-grid>
+              <span class="text-blue" [fdLayoutGridCol]="4">
+                پایه شخصی:  
+              </span>
+              <span class="sub-title" [fdLayoutGridCol]="6" fd-list-title>
+              </span>
+            </fd-layout-grid>
+          </li>
+          <li fd-list-item>
+            <fd-layout-grid>
+              <span class="text-blue" [fdLayoutGridCol]="4"> معاونت :   </span>
+              <span class="sub-title" [fdLayoutGridCol]="6" fd-list-title>
+              </span>
+            </fd-layout-grid>
+          </li>
+          <li fd-list-item>
+            <fd-layout-grid>
+              <span class="text-blue" [fdLayoutGridCol]="4">
+                پایه سمت :  
+              </span>
+              <span class="sub-title" [fdLayoutGridCol]="6" fd-list-title>
+              </span>
+            </fd-layout-grid>
+          </li>
+        </ul>
+      </fd-card-content>
+    </fd-card>
+  </div>
+  <div [fdLayoutGridCol]="4">
+    <fd-card>
+      <fd-card-header>
+        <div fd-card-title>
+          <h4 class="fd-title">اطلاعات سازمانی کارکردی</h4>
+        </div>
+      </fd-card-header>
+      <fd-card-content>
+        <ul fd-list>
+          <li fd-list-item>
+            <fd-layout-grid>
+              <span class="text-blue" [fdLayoutGridCol]="4">
+                واحد سازمانی :
+              </span>
+              <span class="sub-title" [fdLayoutGridCol]="6" fd-list-title>
+              </span>
+            </fd-layout-grid>
+          </li>
+          <li fd-list-item>
+            <fd-layout-grid>
+              <span class="text-blue" [fdLayoutGridCol]="4">
+                پست سازمانی :
+              </span>
+              <span class="sub-title" [fdLayoutGridCol]="6" fd-list-title>
+              </span>
+            </fd-layout-grid>
+          </li>
+          <li fd-list-item>
+            <fd-layout-grid>
+              <span class="text-blue" [fdLayoutGridCol]="4">
+                پست مافوق:  
+              </span>
+              <span class="sub-title" [fdLayoutGridCol]="6" fd-list-title>
+              </span>
+            </fd-layout-grid>
+          </li>
+        </ul>
+      </fd-card-content>
+    </fd-card>
+  </div>
+  <div [fdLayoutGridCol]="3" class="add-photo">
+    <fd-card>
+      <fd-card-header>
+        <div fd-card-title>
+          <div class="flex-1">
+            <h4 class="fd-title">تصویر امضا:</h4>
+          </div>
+          <div>
+            <i class="red" fd-nested-list-icon glyph="delete"></i>
+          </div>
+          <div>
+            <i fd-nested-list-icon glyph="save"></i>
+          </div>
+        </div>
+      </fd-card-header>
+      <fd-card-content>
+        <div>
+          <i fd-nested-list-icon glyph="add-photo"></i>
+        </div>
+      </fd-card-content>
+    </fd-card>
+  </div>
+</fd-layout-grid>

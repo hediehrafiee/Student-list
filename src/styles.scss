@@ -134,7 +134,7 @@ html {
 }
 
 .fd-side-nav--condensed {
-  width: 11.75rem !important;
+  width: 15.75rem !important;
 }
 
 .fd-side-nav--condensed .fd-nested-list__title {
@@ -190,4 +190,45 @@ a,
   text-overflow: ellipsis;
   display: inline-block !important;
   padding-top: 10px !important;
+}
+
+h4 {
+  margin: 0;
+}
+
+.sub-title {
+  font-size: 14px;
+}
+
+li {
+  padding: 0 !important;
+}
+
+.add-photo {
+  fd-card-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #f0f0f0;
+    margin: 20px;
+    border: 2px dashed #6367de92;
+    border-radius: 5px;
+    i {
+      &::before {
+        color: #6367de !important;
+        font-size: 44px;
+      }
+    }
+  }
+  fd-card-header {
+    i {
+      &::before {
+        font-size: 18px;
+      }
+      &.red::before {
+        color: red;
+      }
+    }
+  }
 }

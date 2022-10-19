@@ -31,6 +31,7 @@ import { MenuComponent } from './menu/menu.component';
 import { MenuChildComponent } from './menu/menu-child/menu-child.component';
 import { PersonalPanelComponent } from './menu-components/personal-panel/personal-panel.component';
 import { HttpClientModule } from '@angular/common/http';
+import { SpecificationsAndInformationComponent } from './menu-components/specifications-and-information/specifications-and-information.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { HttpClientModule } from '@angular/common/http';
     MenuComponent,
     MenuChildComponent,
     PersonalPanelComponent,
+    SpecificationsAndInformationComponent,
   ],
   imports: [
     BrowserModule,

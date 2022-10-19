@@ -1,0 +1,304 @@
+<fd-layout-grid>
+  <div [fdLayoutGridCol]="12">
+    <fd-card>
+      <fd-card-header>
+        <div fd-card-title>
+          <h4 class="fd-title">خلاصه اطلاعات پرسنلی</h4>
+        </div>
+      </fd-card-header>
+      <fd-card-content>
+        <fd-layout-grid style="padding: 20px">
+          <div [fdLayoutGridCol]="3">
+            <div fd-form-item>
+              <label fd-form-label for="input-1" [required]="true"
+                >شماره پرسنلی :</label
+              >
+              <input fd-form-control type="text" id="input-1" />
+            </div>
+            <div fd-form-item>
+              <label fd-form-label [required]="true" for="input-2"
+                >شماره کارت تردد :</label
+              >
+              <input
+                fd-form-control
+                type="text"
+                id="input-2"
+                aria-required="true"
+              />
+            </div>
+            <div fd-form-item>
+              <label fd-form-label [required]="true" for="input-3"
+                >وضعیت اشتغال</label
+              >
+              <input
+                fd-form-control
+                type="password"
+                id="input-3"
+                aria-required="true"
+              />
+            </div>
+            <div fd-form-item>
+              <label fd-form-label for="input-4" [required]="true"
+                >شماره بیمه :</label
+              >
+              <input
+                fd-form-control
+                fdCompact
+                type="password"
+                id="input-4"
+                aria-required="true"
+              />
+            </div>
+            <div fd-form-item>
+              <label fd-form-label for="input-1"> وضغیت حقوقی : </label>
+              <input fd-form-control type="text" id="input-1" />
+            </div>
+            <div fd-form-item>
+              <label fd-form-label for="input-2">جنسیت :</label>
+              <input
+                fd-form-control
+                type="text"
+                id="input-2"
+                aria-required="true"
+              />
+            </div>
+            <div fd-form-item>
+              <label fd-form-label for="input-3">سریال کارت ملی :</label>
+              <input
+                fd-form-control
+                type="password"
+                id="input-3"
+                aria-required="true"
+              />
+            </div>
+            <div fd-form-item>
+              <label fd-form-label for="input-4">سطح تحصیلات :</label>
+              <input
+                fd-form-control
+                fdCompact
+                type="password"
+                id="input-4"
+                aria-required="true"
+              />
+            </div>
+          </div>
+
+          <div [fdLayoutGridCol]="3">
+            <div fd-form-item>
+              <label fd-form-label for="input-1"> رشته تحصیلی :</label>
+              <input fd-form-control type="text" id="input-1" />
+            </div>
+            <div fd-form-item>
+              <label fd-form-label for="input-2">محل صدور :</label>
+              <input
+                fd-form-control
+                type="text"
+                id="input-2"
+                aria-required="true"
+              />
+            </div>
+            <div fd-form-item>
+              <label fd-form-label for="input-3">گرایش تحصیلی : </label>
+              <input
+                fd-form-control
+                type="password"
+                id="input-3"
+                aria-required="true"
+              />
+            </div>
+            <div fd-form-item>
+              <label fd-form-label for="input-4">تعداد اشخاص تحت تکفل :</label>
+              <input
+                fd-form-control
+                fdCompact
+                type="password"
+                id="input-4"
+                aria-required="true"
+              />
+            </div>
+
+            <div fd-form-item>
+              <label fd-form-label for="input-1">تعداد فرزندان تحت تکفل </label>
+              <input fd-form-control type="text" id="input-1" />
+            </div>
+            <div fd-form-item>
+              <label fd-form-label for="input-2">بومی</label>
+              <input
+                fd-form-control
+                type="text"
+                id="input-2"
+                aria-required="true"
+              />
+            </div>
+            <div fd-form-item>
+              <label fd-form-label for="input-3"
+                >محل نگهداری پرونده فیریکی</label
+              >
+              <input
+                fd-form-control
+                type="password"
+                id="input-3"
+                aria-required="true"
+              />
+            </div>
+            <div fd-form-item>
+              <label fd-form-label for="input-4"
+                >کد نگهداری پرونده فیریکی
+              </label>
+              <input
+                fd-form-control
+                fdCompact
+                type="password"
+                id="input-4"
+                aria-required="true"
+              />
+            </div>
+          </div>
+
+          <div [fdLayoutGridCol]="3">
+            <div fd-form-item>
+              <label fd-form-label for="input-1">نام کاربری :</label>
+              <fd-layout-grid>
+                <input
+                  [fdLayoutGridCol]="6"
+                  fd-form-control
+                  type="text"
+                  placeholder="از تاریخ ... "
+                />
+                <input
+                  [fdLayoutGridCol]="6"
+                  fd-form-control
+                  type="text"
+                  placeholder="تا تاریخ ... "
+                />
+              </fd-layout-grid>
+            </div>
+            <div fd-form-item>
+              <label fd-form-label for="input-2">سمت پروفایل</label>
+              <input
+                fd-form-control
+                type="text"
+                id="input-2"
+                aria-required="true"
+              />
+            </div>
+            <div fd-form-item>
+              <label fd-form-label for="input-3">توضیحات</label>
+              <input
+                fd-form-control
+                type="password"
+                id="input-3"
+                aria-required="true"
+              />
+            </div>
+            <div fd-form-item>
+              <label fd-form-label for="input-4">Father Name: </label>
+              <input
+                fd-form-control
+                fdCompact
+                type="password"
+                id="input-4"
+                aria-required="true"
+              />
+            </div>
+            <div fd-form-item>
+              <label fd-form-label for="input-2">تلفن همراه : </label>
+              <input
+                fd-form-control
+                type="text"
+                id="input-2"
+                aria-required="true"
+              />
+            </div>
+            <div fd-form-item>
+              <label fd-form-label for="input-3">تلفن همراه (پیش فرض) : </label>
+              <input
+                fd-form-control
+                type="password"
+                id="input-3"
+                aria-required="true"
+              />
+            </div>
+            <div fd-form-item>
+              <label fd-form-label for="input-4">تلفن منزل : </label>
+              <input
+                fd-form-control
+                fdCompact
+                type="password"
+                id="input-4"
+                aria-required="true"
+              />
+            </div>
+            <div fd-form-item>
+              <label fd-form-label for="input-4">تلفن محل کار : </label>
+              <input
+                fd-form-control
+                fdCompact
+                type="password"
+                id="input-4"
+                aria-required="true"
+              />
+            </div>
+          </div>
+
+          <div [fdLayoutGridCol]="3">
+            <div fd-form-item>
+              <label fd-form-label for="input-2">داخلی : </label>
+              <input
+                fd-form-control
+                type="text"
+                id="input-2"
+                aria-required="true"
+              />
+            </div>
+            <div fd-form-item>
+              <label fd-form-label for="input-2">ایمیل (پیش فرض) : </label>
+              <input
+                fd-form-control
+                type="text"
+                id="input-2"
+                aria-required="true"
+              />
+            </div>
+            <div fd-form-item>
+              <label fd-form-label for="input-3">کد پستی : </label>
+              <input
+                fd-form-control
+                type="password"
+                id="input-3"
+                aria-required="true"
+              />
+            </div>
+            <div fd-form-item>
+              <label fd-form-label for="input-4">استان : </label>
+              <input
+                fd-form-control
+                fdCompact
+                type="password"
+                id="input-4"
+                aria-required="true"
+              />
+            </div>
+            <div fd-form-item>
+              <label fd-form-label for="input-2">شهر : </label>
+              <input
+                fd-form-control
+                type="text"
+                id="input-2"
+                aria-required="true"
+              />
+            </div>
+            <div fd-form-item>
+              <label fd-form-label for="input-3">آدرس : </label>
+              <textarea fd-form-control id="textarea-11" rows="3"></textarea>
+            </div>
+            <div fd-form-item>
+              <label fd-form-label for="input-4">Home Address: </label>
+              <textarea fd-form-control id="textarea-11" rows="2"></textarea>
+            </div>
+          </div>
+        </fd-layout-grid>
+      </fd-card-content>
+    </fd-card>
+  </div>
+</fd-layout-grid>

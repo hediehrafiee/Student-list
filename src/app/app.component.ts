@@ -3,11 +3,13 @@ import {
   ChangeDetectorRef,
   Component,
   ComponentFactoryResolver,
+  OnDestroy,
   OnInit,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
 import { RtlService } from '@fundamental-ngx/core';
+import { Subscription } from 'rxjs';
 import { Components } from './const/components';
 
 import { TabsService } from './services/tabs.service';
@@ -17,7 +19,7 @@ import { TabsService } from './services/tabs.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   title = 'test-barsa';
   @ViewChild('content', { read: ViewContainerRef })
   content: ViewContainerRef;
@@ -28,6 +30,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   public personalComponents: any = Components;
 
+  private subscription = new Subscription();
+
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
     private rtlService: RtlService,
@@ -37,7 +41,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.rtlService.rtl.next(true);
-    this.tabsService.getTabs().subscribe((data: any): void => {
+    const tabs = this.tabsService.getTabs().subscribe((data: any): void => {
       const findTaggedGroup = (data.items[0].items[0].items as Array<any>).find(
         (item: any) => item.Type === 'TabbedGroup'
       );
@@ -47,6 +51,8 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.tabs.unshift({ title: 'اصلی', id: 0, children: [] });
       this.cd.detectChanges();
     });
+
+    this.subscription.add(tabs);
   }
 
   public selectMenu(id: number) {
@@ -95,10 +101,19 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.tabsService.tabSelectedUpdate$.subscribe((id: number) => {
-      this.selectMenu(id);
-    });
+    const selectedTabs = this.tabsService.tabSelectedUpdate$.subscribe(
+      (id: number) => {
+        this.selectMenu(id);
+      }
+    );
+
+    this.subscription.add(selectedTabs);
   }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
   // convertMenu2(items: any) {
   //   return items.reduce((perv: any, current: any, index: number) => {
   //     perv.push({

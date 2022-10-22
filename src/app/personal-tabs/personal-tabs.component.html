@@ -1,6 +1,6 @@
 <div class="flex" dir="rtl">
   <div>
-    <app-menu [tabs]="tabs"></app-menu>
+    <app-menu [tabs]="tabs$ | async"></app-menu>
   </div>
 
   <div class="container">

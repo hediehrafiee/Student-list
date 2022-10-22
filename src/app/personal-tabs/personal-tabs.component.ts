@@ -9,7 +9,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { RtlService } from '@fundamental-ngx/core';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Components } from '../const/components';
 import { TabsService } from '../services/tabs.service';
 
@@ -22,13 +22,11 @@ export class PersonalTabsComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('content', { read: ViewContainerRef })
   content: ViewContainerRef;
 
-  public tabs: any = [];
-
-  private tabsId: number = 0;
-
   public personalComponents: any = Components;
 
   private subscription = new Subscription();
+
+  public tabs$: Observable<any[]>;
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
@@ -38,56 +36,10 @@ export class PersonalTabsComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.tabs$ = this.tabsService.tabs$;
+    console.log(this.tabs$);
+
     this.rtlService.rtl.next(true);
-
-    const tabs = this.tabsService.getTabs().subscribe((data: any): void => {
-      const findTaggedGroup = (data.items[0].items[0].items as Array<any>).find(
-        (item: any) => item.Type === 'TabbedGroup'
-      );
-
-      this.convertMenu(findTaggedGroup.items);
-      this.tabs = this.convertTabs(this.tabs);
-      this.tabs.unshift({ title: 'اصلی', id: 0, children: [] });
-      console.log(this.tabs);
-      this.cd.detectChanges();
-    });
-
-    this.subscription.add(tabs);
-  }
-
-  private convertTabs(items: any, id = 0) {
-    return items
-      .filter((item: any) => item.parentID === id)
-      .map((item: any) => ({
-        ...item,
-        children: this.convertTabs(items, item.id),
-      }));
-  }
-
-  private convertMenu(items: any, parent = 0) {
-    for (let item of items) {
-      if (
-        item.xtype === 'Ly.LayoutTabPage' &&
-        item.Title &&
-        item.TextVisible?.toString() !== 'false'
-      ) {
-        this.tabsId++;
-
-        this.tabs.push({
-          title: item.Title,
-
-          id: this.tabsId,
-
-          parentID: parent,
-        });
-      }
-
-      if (item.items)
-        this.convertMenu(
-          item.items,
-          item.Type === 'LayoutGroup' && item.Title ? this.tabsId : parent
-        );
-    }
   }
 
   public selectMenu(id: number) {
@@ -98,6 +50,7 @@ export class PersonalTabsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.componentFactoryResolver.resolveComponentFactory(selectedComponent);
     this.content.clear();
     this.content.createComponent(componentFactory);
+    this.cd.detectChanges();
   }
 
   ngAfterViewInit() {
@@ -106,7 +59,6 @@ export class PersonalTabsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.selectMenu(id);
       }
     );
-
     this.subscription.add(selectedTabs);
   }
 

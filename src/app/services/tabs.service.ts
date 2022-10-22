@@ -6,7 +6,7 @@ import { Observable, map, BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class TabsService {
-  private _tabSelected$ = new BehaviorSubject<number>(2);
+  private _tabSelected$ = new BehaviorSubject<number>(0);
   public tabSelectedUpdate$: Observable<number> =
     this._tabSelected$.asObservable();
   constructor(private http: HttpClient) {}

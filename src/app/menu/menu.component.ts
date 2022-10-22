@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TabsService } from '../services/tabs.service';
 
 @Component({
@@ -6,19 +6,7 @@ import { TabsService } from '../services/tabs.service';
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
 })
-export class MenuComponent implements OnInit {
-  constructor(private tabsService: TabsService) {}
+export class MenuComponent {
+  constructor() {}
   @Input() tabs: any;
-
-  public tabId: number;
-
-  ngOnInit(): void {
-    const selectedTabs = this.tabsService.tabSelectedUpdate$.subscribe(
-      (id: number) => {
-        this.tabId = id;
-      }
-    );
-
-    // this.subscription.add(selectedTabs);
-  }
 }

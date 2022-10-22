@@ -8,9 +8,10 @@ import { TabsService } from '../../services/tabs.service';
 })
 export class MenuChildComponent {
   @Input() tab: any;
-
+  public selectedTab: number = 0;
   constructor(private tabService: TabsService) {}
   selectTab(id: number): void {
     this.tabService.selectTab(id);
+    this.selectedTab = id;
   }
 }

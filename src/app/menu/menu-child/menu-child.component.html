@@ -1,6 +1,6 @@
 <ng-container *ngIf="!tab.children.length; else isNested">
   <a fd-nested-list-link (click)="selectTab(tab.id)">
-    <span fd-nested-list-title>{{ tab.title }}</span>
+    <span fd-nested-list-title> {{ tab.title }} </span>
   </a>
 </ng-container>
 <ng-template #isNested>

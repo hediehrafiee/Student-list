@@ -33,6 +33,8 @@ import { PersonalPanelComponent } from './menu-components/personal-panel/persona
 import { HttpClientModule } from '@angular/common/http';
 import { SpecificationsAndInformationComponent } from './menu-components/specifications-and-information/specifications-and-information.component';
 import { SummaryOfPersonnelInformationComponent } from './menu-components/summary-of-personnel-information/summary-of-personnel-information.component';
+import { EmploymentTypeHistoryComponent } from './menu-components/Employment information/employment-type-history/employment-type-history.component';
+import { PersonalTabsComponent } from './personal-tabs/personal-tabs.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,8 @@ import { SummaryOfPersonnelInformationComponent } from './menu-components/summar
     PersonalPanelComponent,
     SpecificationsAndInformationComponent,
     SummaryOfPersonnelInformationComponent,
+    EmploymentTypeHistoryComponent,
+    PersonalTabsComponent,
   ],
   imports: [
     BrowserModule,

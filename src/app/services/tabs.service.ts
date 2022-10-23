@@ -31,14 +31,7 @@ export class TabsService {
   constructor(private http: HttpClient) {
     this.getTabs()
       .pipe(
-        map(
-          (data: any) =>
-            (data.items[0].items[0].items as Array<any>).find(
-              (item: any) => item.Type === 'TabbedGroup'
-            ).items
-        ),
-        map((taggedGroup) => this.convertToList(taggedGroup, 0)),
-
+        map((data) => this.convertToList(data.items, 0)),
         map((tabs: TabList[]) => [
           {
             title: 'اصلی',

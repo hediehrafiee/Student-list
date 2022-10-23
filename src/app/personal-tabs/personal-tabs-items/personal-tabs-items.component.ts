@@ -3,42 +3,41 @@ import {
   Component,
   ComponentFactoryResolver,
   Input,
-  OnInit,
+  OnChanges,
+  SimpleChanges,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-personal-tabs-items',
   templateUrl: './personal-tabs-items.component.html',
   styleUrls: ['./personal-tabs-items.component.scss'],
 })
-export class PersonalTabsItemsComponent implements OnInit {
-  @ViewChild('content', { read: ViewContainerRef })
+export class PersonalTabsItemsComponent implements OnChanges {
+  @ViewChild('content', { read: ViewContainerRef, static: true })
   content: ViewContainerRef;
 
-  @Input() items: Observable<any[]>;
+  @Input() items: any[];
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
-
     private cd: ChangeDetectorRef
   ) {}
 
-  ngOnInit(): void {
-    this.items.subscribe((item) => console.log('item', item));
+  ngOnChanges(changes: SimpleChanges): void {
+    const { items } = changes;
+    if (items && !items.firstChange) this.selectMenu(items.currentValue);
   }
 
-  public selectMenu(id: number) {
-    const selectedComponent = this.items;
+  public selectMenu(items: any) {
+    const selectedComponent = items[0];
     if (!selectedComponent) return;
 
-    // const componentFactory =
-    //   this.componentFactoryResolver.resolveComponentFactory(selectedComponent);
-    // this.content.clear();
-    // this.content.createComponent(componentFactory);
+    const componentFactory =
+      this.componentFactoryResolver.resolveComponentFactory(selectedComponent);
+    this.content.clear();
+    this.content.createComponent(componentFactory);
     this.cd.detectChanges();
   }
 }

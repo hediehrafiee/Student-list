@@ -36,8 +36,7 @@ export class PersonalTabsComponent implements OnInit {
     this.selectedTabItems$ = this.tabsService.tabSelected$?.pipe(
       pluck('items')
     );
-    this.selectedTabItems$.subscribe((x) => console.log(x));
-    console.log(this.selectedTabItems$);
+
     this.rtlService.rtl.next(true);
   }
 

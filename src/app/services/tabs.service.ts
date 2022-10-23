@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map, BehaviorSubject, tap } from 'rxjs';
+import { Observable, map, BehaviorSubject, tap, combineLatest } from 'rxjs';
 import { Components } from '../const/components';
 import { Menu, TabList } from '../interfaces/menu';
 
@@ -10,18 +10,17 @@ import { Menu, TabList } from '../interfaces/menu';
 export class TabsService {
   private _tabsId: number = 0;
   private _personalComponents: any = Components;
-
-  private _simpleTabs: any = [];
   private _tabs$ = new BehaviorSubject<any[]>([]);
-  public tabs$ = this._tabs$.asObservable();
-
   private _tabSelectedId$ = new BehaviorSubject<number>(-1);
-  public tabSelectedId$: Observable<number> =
-    this._tabSelectedId$.asObservable();
-
-  private _tabSelected$ = new BehaviorSubject<TabList | any>(null);
+  public get tabSelectedId$(): Observable<number> {
+    return this._tabSelectedId$.asObservable();
+  }
   public get tabSelected$(): Observable<TabList> {
-    return this._tabSelected$.asObservable();
+    return combineLatest([this._tabs$, this._tabSelectedId$]).pipe(
+      map(([tabs, id]) => {
+        return tabs.find((tab: any) => tab.id === id);
+      })
+    );
   }
   public get menu$(): Observable<Menu[]> {
     return this._tabs$
@@ -57,9 +56,6 @@ export class TabsService {
 
   public selectTab(id: number): void {
     this._tabSelectedId$.next(id);
-    this._tabSelected$.next(
-      this._simpleTabs.find((st: TabList) => st.id === id)
-    );
   }
 
   private getTabs(): Observable<any> {

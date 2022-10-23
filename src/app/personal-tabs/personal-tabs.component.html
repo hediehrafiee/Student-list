@@ -6,7 +6,10 @@
     ></app-menu>
   </div>
 
-  <!-- <app-personal-tabs-items
-    [items]="selectedTabItems$ | async"
-  ></app-personal-tabs-items> -->
+  <div class="flex-1">
+    <app-personal-tabs-items
+      *ngIf="selectedTabItems$ | async as selectedTabItems"
+      [items]="selectedTabItems"
+    ></app-personal-tabs-items>
+  </div>
 </div>

@@ -2,7 +2,10 @@
   <div fd-side-nav-main>
     <ul fd-nested-list [textOnly]="true">
       <li fd-nested-list-item *ngFor="let tab of tabs" [expanded]="false">
-        <app-menu-child [tab]="tab"></app-menu-child>
+        <app-menu-child
+          [tab]="tab"
+          (selectedTabChanged)="onTabChanged($event)"
+        ></app-menu-child>
       </li>
     </ul>
   </div>

@@ -35,6 +35,7 @@ import { SpecificationsAndInformationComponent } from './menu-components/specifi
 import { SummaryOfPersonnelInformationComponent } from './menu-components/summary-of-personnel-information/summary-of-personnel-information.component';
 import { EmploymentTypeHistoryComponent } from './menu-components/Employment information/employment-type-history/employment-type-history.component';
 import { PersonalTabsComponent } from './personal-tabs/personal-tabs.component';
+import { PersonalTabsItemsComponent } from './personal-tabs/personal-tabs-items/personal-tabs-items.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { PersonalTabsComponent } from './personal-tabs/personal-tabs.component';
     SummaryOfPersonnelInformationComponent,
     EmploymentTypeHistoryComponent,
     PersonalTabsComponent,
+    PersonalTabsItemsComponent,
   ],
   imports: [
     BrowserModule,

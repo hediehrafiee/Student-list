@@ -1,81 +1,104 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map, BehaviorSubject } from 'rxjs';
+import { Observable, map, BehaviorSubject, tap } from 'rxjs';
+import { Components } from '../const/components';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TabsService {
-  private _tabSelected$ = new BehaviorSubject<number>(0);
-  public tabSelectedUpdate$: Observable<number> =
-    this._tabSelected$.asObservable();
+  private _tabsId: number = 0;
+  private _personalComponents: any = Components;
 
+  private _simpleTabs: any = [];
   private _tabs$ = new BehaviorSubject<any[]>([]);
   public tabs$ = this._tabs$.asObservable();
 
-  private tabsId: number = 0;
-  constructor(private http: HttpClient) {
-    const tabs = this.getTabs().subscribe((data: any): void => {
-      const findTaggedGroup = (data.items[0].items[0].items as Array<any>).find(
-        (item: any) => item.Type === 'TabbedGroup'
-      );
+  private _tabSelectedId$ = new BehaviorSubject<number>(-1);
+  public tabSelectedId$: Observable<number> =
+    this._tabSelectedId$.asObservable();
 
-      this.convertMenu(findTaggedGroup.items);
-      this._tabs$.next(this.convertTabs(this._tabs$.value));
-      this._tabs$.value.unshift({ title: 'اصلی', id: 0, children: [] });
-      this._tabs$.next(this._tabs$.value);
-    });
+  private _tabSelected$ = new BehaviorSubject<any>(null);
+  public get tabSelected$(): Observable<any> {
+    return this._tabSelected$.asObservable();
+  }
+  public get menu$(): Observable<any[]> {
+    return this._tabs$
+      .asObservable()
+      .pipe(map((tabs) => this.convertToMenu(tabs)));
+  }
+
+  constructor(private http: HttpClient) {
+    this.getTabs()
+      .pipe(
+        map(
+          (data: any) =>
+            (data.items[0].items[0].items as Array<any>).find(
+              (item: any) => item.Type === 'TabbedGroup'
+            ).items
+        ),
+        map((taggedGroup) => this.convertToList(taggedGroup, 0)),
+
+        map((tabs: any[]) => [
+          {
+            title: 'اصلی',
+            id: -1,
+            parentID: 0,
+            items: [this._personalComponents[0]],
+          },
+          ...tabs,
+        ])
+      )
+      .subscribe((tabs) => {
+        this._tabs$.next(tabs);
+      });
   }
 
   public selectTab(id: number): void {
-    this._tabSelected$.next(id);
+    this._tabSelectedId$.next(id);
+    this._tabSelected$.next(this._simpleTabs.find((st: any) => st.id === id));
   }
 
-  getTabs(): Observable<any> {
+  private getTabs(): Observable<any> {
     return this.http.get('assets/data.json').pipe(map((data: any) => data));
   }
-
-  private convertTabs(items: any, id = 0) {
+  private convertToMenu(items: any, id = 0) {
     return items
       .filter((item: any) => item.parentID === id)
       .map((item: any) => ({
         ...item,
-        children: this.convertTabs(items, item.id),
+        children: this.convertToMenu(items, item.id),
       }));
   }
-
-  private convertMenu(items: any, parent = 0) {
+  private convertToList(items: any, parent = 0, destination: any[] = []) {
     for (let item of items) {
       if (
         item.xtype === 'Ly.LayoutTabPage' &&
         item.Title &&
         item.TextVisible?.toString() !== 'false'
       ) {
-        this.tabsId++;
+        this._tabsId++;
 
-        // this._tabs$.push({
-        //   title: item.Title,
-
-        //   id: this.tabsId,
-
-        //   parentID: parent,
-        // });
-        this._tabs$.next(
-          this._tabs$.value.concat({
+        destination = [
+          ...destination,
+          {
             title: item.Title,
-
-            id: this.tabsId,
-
+            id: this._tabsId,
             parentID: parent,
-          })
-        );
+            items: [this._personalComponents[this._tabsId]],
+          },
+        ];
       }
 
       if (item.items)
-        this.convertMenu(
-          item.items,
-          item.Type === 'LayoutGroup' && item.Title ? this.tabsId : parent
-        );
+        destination = [
+          ...destination,
+          ...this.convertToList(
+            item.items,
+            item.Type === 'LayoutGroup' && item.Title ? this._tabsId : parent
+          ),
+        ];
     }
+    return destination;
   }
 }

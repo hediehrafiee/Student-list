@@ -8,10 +8,11 @@ import { TabsService } from '../../services/tabs.service';
 })
 export class MenuChildComponent {
   @Input() tab: any;
+  @Output() selectedTabChanged = new EventEmitter<number>();
   public selectedTab: number = 0;
-  constructor(private tabService: TabsService) {}
+  constructor() {}
   selectTab(id: number): void {
-    this.tabService.selectTab(id);
     this.selectedTab = id;
+    this.selectedTabChanged.emit(id);
   }
 }

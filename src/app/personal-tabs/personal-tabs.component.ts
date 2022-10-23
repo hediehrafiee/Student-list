@@ -9,7 +9,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { RtlService } from '@fundamental-ngx/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, pluck, Subscription } from 'rxjs';
 import { Components } from '../const/components';
 import { TabsService } from '../services/tabs.service';
 
@@ -18,15 +18,10 @@ import { TabsService } from '../services/tabs.service';
   templateUrl: './personal-tabs.component.html',
   styleUrls: ['./personal-tabs.component.scss'],
 })
-export class PersonalTabsComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('content', { read: ViewContainerRef })
-  content: ViewContainerRef;
-
-  public personalComponents: any = Components;
-
-  private subscription = new Subscription();
-
+export class PersonalTabsComponent implements OnInit {
   public tabs$: Observable<any[]>;
+  public selectedTabId$: Observable<number>;
+  public selectedTabItems$: Observable<any>;
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
@@ -36,33 +31,17 @@ export class PersonalTabsComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.tabs$ = this.tabsService.tabs$;
-    console.log(this.tabs$);
-
+    this.tabs$ = this.tabsService.menu$;
+    this.selectedTabId$ = this.tabsService.tabSelectedId$;
+    this.selectedTabItems$ = this.tabsService.tabSelected$?.pipe(
+      pluck('items')
+    );
+    this.selectedTabItems$.subscribe((x) => console.log(x));
+    console.log(this.selectedTabItems$);
     this.rtlService.rtl.next(true);
   }
 
-  public selectMenu(id: number) {
-    const selectedComponent = this.personalComponents[id];
-    if (!selectedComponent) return;
-
-    const componentFactory =
-      this.componentFactoryResolver.resolveComponentFactory(selectedComponent);
-    this.content.clear();
-    this.content.createComponent(componentFactory);
-    this.cd.detectChanges();
-  }
-
-  ngAfterViewInit() {
-    const selectedTabs = this.tabsService.tabSelectedUpdate$.subscribe(
-      (id: number) => {
-        this.selectMenu(id);
-      }
-    );
-    this.subscription.add(selectedTabs);
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+  public onTabChanged(id: number): void {
+    this.tabsService.selectTab(id);
   }
 }

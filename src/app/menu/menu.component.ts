@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TabsService } from '../services/tabs.service';
 
 @Component({
@@ -7,6 +7,11 @@ import { TabsService } from '../services/tabs.service';
   styleUrls: ['./menu.component.scss'],
 })
 export class MenuComponent {
+  @Output() tabChanged = new EventEmitter<number>();
+
   constructor() {}
   @Input() tabs: any;
+  public onTabChanged(id: number) {
+    this.tabChanged.emit(id);
+  }
 }

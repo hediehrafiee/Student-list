@@ -41,6 +41,7 @@ export class PersonalTabsComponent implements OnInit {
   }
 
   public onTabChanged(id: number): void {
+    console.log(id);
     this.tabsService.selectTab(id);
   }
 }

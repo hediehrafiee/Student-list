@@ -50,6 +50,7 @@
       <app-menu-child
         *ngIf="child.children.length"
         [tab]="child"
+        (selectedTabChanged)="selectTab($event)"
       ></app-menu-child>
     </li>
   </ul>

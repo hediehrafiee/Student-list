@@ -13,6 +13,7 @@ export class MenuChildComponent {
   constructor() {}
   selectTab(id: number): void {
     this.selectedTab = id;
+
     this.selectedTabChanged.emit(id);
   }
 }

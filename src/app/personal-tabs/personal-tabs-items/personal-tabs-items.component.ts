@@ -27,7 +27,8 @@ export class PersonalTabsItemsComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     const { items } = changes;
-    if (items && !items.firstChange) this.selectMenu(items.currentValue);
+    console.log(items);
+    if (items) this.selectMenu(items.currentValue);
   }
 
   public selectMenu(items: any) {

@@ -1,11 +1,9 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { DialogService } from '@fundamental-ngx/core';
-
 import { Observable } from 'rxjs';
-import { Menu } from '../interfaces/menu';
-import { StudentList } from '../interfaces/student.interface';
 
+import { StudentList } from '../interfaces/student.interface';
 import { StudentListService } from '../services/student-list.service';
 
 @Component({

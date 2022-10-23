@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map, BehaviorSubject, tap } from 'rxjs';
 import { Components } from '../const/components';
+import { Menu, TabList } from '../interfaces/menu';
 
 @Injectable({
   providedIn: 'root',
@@ -18,11 +19,11 @@ export class TabsService {
   public tabSelectedId$: Observable<number> =
     this._tabSelectedId$.asObservable();
 
-  private _tabSelected$ = new BehaviorSubject<any>(null);
-  public get tabSelected$(): Observable<any> {
+  private _tabSelected$ = new BehaviorSubject<TabList | any>(null);
+  public get tabSelected$(): Observable<TabList> {
     return this._tabSelected$.asObservable();
   }
-  public get menu$(): Observable<any[]> {
+  public get menu$(): Observable<Menu[]> {
     return this._tabs$
       .asObservable()
       .pipe(map((tabs) => this.convertToMenu(tabs)));
@@ -39,7 +40,7 @@ export class TabsService {
         ),
         map((taggedGroup) => this.convertToList(taggedGroup, 0)),
 
-        map((tabs: any[]) => [
+        map((tabs: TabList[]) => [
           {
             title: 'اصلی',
             id: -1,
@@ -56,7 +57,9 @@ export class TabsService {
 
   public selectTab(id: number): void {
     this._tabSelectedId$.next(id);
-    this._tabSelected$.next(this._simpleTabs.find((st: any) => st.id === id));
+    this._tabSelected$.next(
+      this._simpleTabs.find((st: TabList) => st.id === id)
+    );
   }
 
   private getTabs(): Observable<any> {
@@ -70,7 +73,11 @@ export class TabsService {
         children: this.convertToMenu(items, item.id),
       }));
   }
-  private convertToList(items: any, parent = 0, destination: any[] = []) {
+  private convertToList(
+    items: any,
+    parent = 0,
+    destination: any[] = []
+  ): TabList[] {
     for (let item of items) {
       if (
         item.xtype === 'Ly.LayoutTabPage' &&

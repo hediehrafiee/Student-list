@@ -1,10 +1,16 @@
 import { Component } from '@angular/core';
 
+export interface TabList {
+  title: string;
+  id: number;
+  parentID: number;
+  items: any[];
+}
+
 export interface Menu {
-  value: any;
-  icon: string;
-  children?: {
-    title: string;
-    value: any;
-  }[];
+  title: string;
+  id: number;
+  parentID: number;
+  items: any[];
+  children: TabList[];
 }
